@@ -1,65 +1,120 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+
+export default function Page() {
+  const [host, setHost] = useState("");
+  if (typeof window !== "undefined" && !host) {
+    setHost(window.location.origin);
+  }
+
+  const svgUrl = `${host || ""}/api/public/readme.svg`;
+  const markdown = `![solenad](${svgUrl})`;
+  const html = `<p align="center">\n  <img src="${svgUrl}" alt="solenad" />\n</p>`;
+
+  const [copied, setCopied] = useState<string | null>(null);
+  const copy = (text: string, key: string) => {
+    navigator.clipboard.writeText(text);
+    setCopied(key);
+    setTimeout(() => setCopied(null), 1500);
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main className="min-h-screen px-4 py-10 sm:px-8">
+      <div className="mx-auto max-w-4xl">
+        <div className="mb-8 text-sm text-muted-foreground">
+          <span className="text-term-green">~</span>
+          <span className="mx-1 text-term-blue">❯</span>
+          <span>curl readme.svg</span>
+          <span className="ml-1 cursor-blink text-term-green">▍</span>
+        </div>
+
+        <h1 className="mb-2 text-2xl font-bold">
+          <span className="text-term-green">solenad</span>
+          <span className="text-muted-foreground">@</span>
+          <span className="text-term-yellow">github</span>
+          <span className="text-foreground"> — readme card</span>
+        </h1>
+        <p className="mb-8 text-sm text-muted-foreground">
+          Live preview of the SVG GitHub will render. Stats refresh every ~30
+          min via GitHub&apos;s image cache.
+        </p>
+
+        <div className="mb-10 overflow-hidden rounded-lg border border-border bg-card/40 p-2">
+          <img
+            key={host}
+            src={svgUrl || "/api/public/readme.svg"}
+            alt="solenad readme card preview"
+            className="block w-full"
+          />
+        </div>
+
+        <Snippet
+          label="Markdown (paste into README.md)"
+          value={markdown}
+          copied={copied === "md"}
+          onCopy={() => copy(markdown, "md")}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+        <Snippet
+          label="HTML (centered, for GitHub profile README)"
+          value={html}
+          copied={copied === "html"}
+          onCopy={() => copy(html, "html")}
+        />
+        <Snippet
+          label="Direct image URL"
+          value={svgUrl}
+          copied={copied === "url"}
+          onCopy={() => copy(svgUrl, "url")}
+        />
+
+        <div className="mt-10 rounded-md border border-border bg-card/40 p-4 text-xs text-muted-foreground">
+          <p className="mb-2 text-term-cyan font-bold">how it works</p>
+          <p>
+            GitHub READMEs only render images, not iframes or scripts. This
+            endpoint returns a dynamic SVG that embeds your live GitHub stats
+            (repos, followers, following, total stars) fetched server-side.
+            GitHub&apos;s camo proxy caches the image, so updates appear within
+            ~30 minutes.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+
+        <footer className="mt-10 text-xs text-muted-foreground">
+          <span className="text-term-green">~</span>
+          <span className="mx-1 text-term-blue">❯</span>
+          <span className="cursor-blink">▍</span>
+        </footer>
+      </div>
+    </main>
+  );
+}
+
+function Snippet({
+  label,
+  value,
+  copied,
+  onCopy,
+}: {
+  label: string;
+  value: string;
+  copied: boolean;
+  onCopy: () => void;
+}) {
+  return (
+    <div className="mb-4">
+      <div className="mb-1.5 flex items-center justify-between text-xs">
+        <span className="text-muted-foreground">{label}</span>
+        <button
+          type="button"
+          onClick={onCopy}
+          className="rounded border border-border bg-card px-2 py-1 font-bold text-term-green hover:border-term-green/60 hover:bg-card/80"
+        >
+          {copied ? "copied ✓" : "copy"}
+        </button>
+      </div>
+      <pre className="overflow-x-auto rounded-md border border-border bg-card/60 p-3 text-xs text-foreground/90">
+        <code>{value}</code>
+      </pre>
     </div>
   );
 }

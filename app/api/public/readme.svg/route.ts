@@ -1,6 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
-import type {} from "@tanstack/react-start";
-
 const ASCII = `⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⢠⣾⠟⠓⣯⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⣾⠞⠳⣷⣄⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⣏⣿⠀⠀⠿⣾⠶⠾⠶⠶⠶⠶⠭⢶⣶⣿⣇⠀⢀⣿⣿⡀⠀⠀⠀⠀
@@ -69,41 +66,38 @@ async function fetchStats() {
   }
 }
 
-export const Route = createFileRoute("/api/public/readme.svg")({
-  server: {
-    handlers: {
-      GET: async () => {
-        const stats = await fetchStats();
+export async function GET() {
+  const stats = await fetchStats();
 
-        const W = 900;
-        const H = 760;
+  const W = 900;
+  const H = 760;
 
-        const asciiX = 30;
-        const asciiY = 50;
-        const asciiSize = 11;
-        const asciiLineH = 12;
-        const asciiLines = ASCII.split("\n");
+  const asciiX = 30;
+  const asciiY = 50;
+  const asciiSize = 11;
+  const asciiLineH = 12;
+  const asciiLines = ASCII.split("\n");
 
-        const infoX = 340;
-        const headerY = 70;
-        const rowStartY = 120;
-        const rowH = 26;
-        const keyColW = 110;
+  const infoX = 340;
+  const headerY = 70;
+  const rowStartY = 120;
+  const rowH = 26;
+  const keyColW = 110;
 
-        const statsY = 540;
-        const cardW = 195;
-        const cardH = 90;
-        const cardGap = 20;
-        const cardStartX = 30;
+  const statsY = 540;
+  const cardW = 195;
+  const cardH = 90;
+  const cardGap = 20;
+  const cardStartX = 30;
 
-        const statCards = [
-          { label: "public repos", value: stats.repos, color: "#a8e890" },
-          { label: "followers", value: stats.followers, color: "#7cd7e8" },
-          { label: "following", value: stats.following, color: "#f08ab8" },
-          { label: "total stars", value: stats.stars, color: "#f5d96e" },
-        ];
+  const statCards = [
+    { label: "public repos", value: stats.repos, color: "#a8e890" },
+    { label: "followers", value: stats.followers, color: "#7cd7e8" },
+    { label: "following", value: stats.following, color: "#f08ab8" },
+    { label: "total stars", value: stats.stars, color: "#f5d96e" },
+  ];
 
-        const svg = `<?xml version="1.0" encoding="UTF-8"?>
+  const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" font-family="ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
@@ -190,13 +184,10 @@ export const Route = createFileRoute("/api/public/readme.svg")({
   </text>
 </svg>`;
 
-        return new Response(svg, {
-          headers: {
-            "Content-Type": "image/svg+xml; charset=utf-8",
-            "Cache-Control": "public, max-age=1800, s-maxage=1800",
-          },
-        });
-      },
+  return new Response(svg, {
+    headers: {
+      "Content-Type": "image/svg+xml; charset=utf-8",
+      "Cache-Control": "public, max-age=1800, s-maxage=1800",
     },
-  },
-});
+  });
+}
