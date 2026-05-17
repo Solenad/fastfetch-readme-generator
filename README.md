@@ -1,2 +1,2 @@
-# github-readme
+# chiikawa-reame
 Github README dynamic GIF creator
