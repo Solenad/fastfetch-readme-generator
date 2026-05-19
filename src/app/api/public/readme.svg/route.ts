@@ -126,11 +126,11 @@ export async function GET() {
   <g transform="translate(${asciiX}, ${asciiY})" fill="#7cd7e8">
     <g filter="url(#glow)" opacity="0.55">
       ${asciiLines
-        .map(
-          (line, i) =>
-            `<text x="0" y="${i * asciiLineH}" font-size="${asciiSize}" xml:space="preserve">${esc(line)}</text>`,
-        )
-        .join("\n      ")}
+      .map(
+        (line, i) =>
+          `<text x="0" y="${i * asciiLineH}" font-size="${asciiSize}" xml:space="preserve">${esc(line)}</text>`,
+      )
+      .join("\n      ")}
     </g>
     ${asciiLines
       .map(
@@ -146,18 +146,18 @@ export async function GET() {
   <text x="${infoX}" y="${headerY + 22}" fill="#3a4258" font-size="13" xml:space="preserve">${"─".repeat(48)}</text>
 
   ${INFO.map((row, i) => {
-    const y = rowStartY + i * rowH;
-    return `<g>
+        const y = rowStartY + i * rowH;
+        return `<g>
     <text x="${infoX}" y="${y}" font-size="13" font-weight="700" fill="${row.color}">${esc(row.key)}</text>
     <text x="${infoX + keyColW}" y="${y}" font-size="13" fill="#e8e6d8">${esc(row.value)}</text>
   </g>`;
-  }).join("\n  ")}
+      }).join("\n  ")}
 
   <g transform="translate(${infoX}, ${rowStartY + INFO.length * rowH + 14})">
     ${PALETTE.map(
-      (c, i) =>
-        `<circle cx="${i * 22 + 8}" cy="8" r="7" fill="${c}" class="pulse" style="animation-delay: ${i * 0.15}s"/>`,
-    ).join("\n    ")}
+        (c, i) =>
+          `<circle cx="${i * 22 + 8}" cy="8" r="7" fill="${c}" class="pulse" style="animation-delay: ${i * 0.15}s"/>`,
+      ).join("\n    ")}
   </g>
 
   <text x="30" y="${statsY - 20}" fill="#3a4258" font-size="13" xml:space="preserve">${"━".repeat(95)}</text>
@@ -166,21 +166,20 @@ export async function GET() {
   </text>
 
   ${statCards
-    .map((s, i) => {
-      const x = cardStartX + i * (cardW + cardGap);
-      return `<g>
+      .map((s, i) => {
+        const x = cardStartX + i * (cardW + cardGap);
+        return `<g>
     <rect x="${x}" y="${statsY}" width="${cardW}" height="${cardH}" rx="8" fill="#1f2536" stroke="#2a3145"/>
     <text x="${x + 16}" y="${statsY + 50}" font-size="34" font-weight="700" fill="${s.color}">${s.value.toLocaleString()}</text>
     <text x="${x + 16}" y="${statsY + 74}" font-size="12" fill="#8892b0">${esc(s.label)}</text>
   </g>`;
-    })
-    .join("\n  ")}
+      })
+      .join("\n  ")}
 
   <text x="30" y="${H - 30}" font-size="13">
     <tspan fill="#a8e890">~</tspan><tspan fill="#8892b0"> </tspan><tspan fill="#7aa8f0">❯</tspan><tspan fill="#e8e6d8" xml:space="preserve"> cat ~/.bio</tspan>
   </text>
   <text x="30" y="${H - 12}" font-size="12" fill="#8892b0">
-    Software Developer Intern @ Siklab · 3rd Year CS @ DLSU · R&amp;D VP @ LSCS<tspan class="blink" fill="#a8e890" dx="6">▍</tspan>
   </text>
 </svg>`;
 

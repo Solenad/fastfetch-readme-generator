@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Page() {
   const [host, setHost] = useState("");
-  if (typeof window !== "undefined" && !host) {
-    setHost(window.location.origin);
-  }
 
-  const svgUrl = `${host || ""}/api/public/readme.svg`;
+  useEffect(() => {
+    setHost(window.location.origin);
+  }, []);
+
+  const origin = host || "";
+  const svgUrl = `${origin}/api/public/readme.svg`;
   const markdown = `![solenad](${svgUrl})`;
   const html = `<p align="center">\n  <img src="${svgUrl}" alt="solenad" />\n</p>`;
 
@@ -42,8 +44,7 @@ export default function Page() {
 
         <div className="mb-10 overflow-hidden rounded-lg border border-border bg-card/40 p-2">
           <img
-            key={host}
-            src={svgUrl || "/api/public/readme.svg"}
+            src="/api/public/readme.svg"
             alt="solenad readme card preview"
             className="block w-full"
           />
