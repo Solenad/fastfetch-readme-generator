@@ -313,12 +313,27 @@ export async function GET() {
     <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
       <feGaussianBlur stdDeviation="2.5"/>
     </filter>
+    <pattern id="scanlines" width="4" height="4" patternUnits="userSpaceOnUse">
+      <rect width="4" height="2" fill="#000" opacity="0.4"/>
+    </pattern>
+    <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+      <stop offset="50%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.5"/>
+    </radialGradient>
+    <filter id="phosphor-glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
     <style>
       @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
       .blink { animation: blink 1s step-end infinite; }
       @keyframes glow { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
       .pulse { animation: glow 2.5s ease-in-out infinite; }
       ${genTwCSS()}
+      .crt-layer { pointer-events: none; }
     </style>
   </defs>
 
@@ -347,7 +362,7 @@ export async function GET() {
       .join("\n    ")}
   </g>
 
-  <text x="${infoX}" y="${headerY}" font-size="18" font-weight="700">
+  <text x="${infoX}" y="${headerY}" font-size="18" font-weight="700" filter="url(#phosphor-glow)">
     <tspan fill="#b7bdf8">roe</tspan><tspan fill="#b7bdf8">@</tspan><tspan fill="#b7bdf8">github</tspan>
   </text>
   <text x="${infoX}" y="${headerY + 22}" fill="#363a4f" font-size="13" xml:space="preserve">${"─".repeat(48)}</text>
@@ -360,7 +375,7 @@ export async function GET() {
   </g>`;
       }).join("\n  ")}
 
-  <g transform="translate(${infoX}, ${rowStartY + INFO.length * rowH + 14})">
+  <g filter="url(#phosphor-glow)" transform="translate(${infoX}, ${rowStartY + INFO.length * rowH + 14})">
     ${PALETTE.map(
         (c, i) =>
           `<circle cx="${i * 22 + 8}" cy="8" r="7" fill="${c}" class="pulse" style="animation-delay: ${i * 0.15}s"/>`,
@@ -368,7 +383,7 @@ export async function GET() {
   </g>
 
   <text x="30" y="${statsY - 20}" fill="#363a4f" font-size="13" xml:space="preserve">${"━".repeat(95)}</text>
-  <text x="30" y="${statsY - 38}" font-size="13">
+  <text x="30" y="${statsY - 38}" font-size="13" filter="url(#phosphor-glow)">
     <tspan fill="#a6da95">~</tspan><tspan fill="#a5adcb"> </tspan><tspan fill="#8aadf4">❯</tspan><tspan fill="#cad3f5" xml:space="preserve"> gh stats --user Solenad</tspan>
   </text>
 
@@ -377,13 +392,13 @@ export async function GET() {
         const x = cardStartX + i * (cardW + cardGap);
         return `<g>
     <rect x="${x}" y="${statsY}" width="${cardW}" height="${cardH}" rx="8" fill="#363a4f" stroke="#494d64"/>
-    <text x="${x + 16}" y="${statsY + 50}" font-size="34" font-weight="700" fill="${s.color}">${s.value.toLocaleString()}</text>
+    <text x="${x + 16}" y="${statsY + 50}" font-size="34" font-weight="700" fill="${s.color}" filter="url(#phosphor-glow)">${s.value.toLocaleString()}</text>
     <text x="${x + 16}" y="${statsY + 74}" font-size="12" fill="#a5adcb">${esc(s.label)}</text>
   </g>`;
       })
       .join("\n  ")}
 
-  <text x="30" y="${H - 30}" font-size="13">
+  <text x="30" y="${H - 30}" font-size="13" filter="url(#phosphor-glow)">
     <tspan fill="#a6da95">~</tspan><tspan fill="#a5adcb"> </tspan><tspan fill="#8aadf4">❯</tspan><tspan fill="#a5adcb"> </tspan>
   </text>
   <g class="tw-p1 tw-box">
@@ -397,6 +412,8 @@ export async function GET() {
   </g>
   <text x="30" y="${H - 12}" font-size="12" fill="#a5adcb">
   </text>
+  <rect class="crt-layer" width="${W}" height="${H}" fill="url(#scanlines)" opacity="0.15" style="mix-blend-mode: overlay" pointer-events="none"/>
+  <rect class="crt-layer" width="${W}" height="${H}" fill="url(#vignette)" pointer-events="none"/>
 </svg>`;
 
   return new Response(svg, {
