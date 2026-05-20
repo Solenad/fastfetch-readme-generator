@@ -53,7 +53,12 @@ const INFO: Array<{ key: string; value: string; color: string }> = [
   },
   {
     key: "tools",
-    value: "Git, Docker, GitHub Actions, Contentful, S3",
+    value: "Git, Docker, GitHub Actions, Contentful",
+    color: "#b7bdf8",
+  },
+  {
+    key: "ai",
+    value: "Opencode, Openspec",
     color: "#b7bdf8",
   },
 ];
@@ -320,6 +325,10 @@ export async function GET() {
       <stop offset="50%" stop-color="#000" stop-opacity="0"/>
       <stop offset="100%" stop-color="#000" stop-opacity="0.5"/>
     </radialGradient>
+    <linearGradient id="crt-beam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
     <filter id="phosphor-glow" x="-10%" y="-10%" width="120%" height="120%">
       <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
       <feMerge>
@@ -336,6 +345,19 @@ export async function GET() {
       .crt-layer { pointer-events: none; }
       @keyframes scan-scroll { 0% { transform: translateY(0); } 100% { transform: translateY(-4px); } }
       .crt-scan { animation: scan-scroll 1.2s linear infinite; transform-origin: 0 0; mix-blend-mode: overlay; }
+      @keyframes beam-sweep {
+        0%   { transform: translateY(-40px); }
+        10%  { transform: translateY(80px); }
+        22%  { transform: translateY(200px); }
+        30%  { transform: translateY(240px); }
+        45%  { transform: translateY(370px); }
+        52%  { transform: translateY(400px); }
+        68%  { transform: translateY(530px); }
+        75%  { transform: translateY(560px); }
+        88%  { transform: translateY(660px); }
+        100% { transform: translateY(760px); }
+      }
+      .crt-beam { animation: beam-sweep 9s linear infinite; transform-origin: 0 0; pointer-events: none; mix-blend-mode: screen; }
     </style>
   </defs>
 
@@ -415,8 +437,9 @@ export async function GET() {
   <text x="30" y="${H - 12}" font-size="12" fill="#a5adcb">
   </text>
   <g class="crt-scan">
-    <rect class="crt-layer" width="${W}" height="${H}" fill="url(#scanlines)" opacity="0.15" pointer-events="none"/>
+    <rect class="crt-layer" width="${W}" height="${H}" fill="url(#scanlines)" opacity="0.25" pointer-events="none"/>
   </g>
+  <rect class="crt-beam" width="${W}" height="20" fill="url(#crt-beam)"/>
   <rect class="crt-layer" width="${W}" height="${H}" fill="url(#vignette)" pointer-events="none"/>
 </svg>`;
 
