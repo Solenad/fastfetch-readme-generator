@@ -332,8 +332,8 @@ export async function GET() {
       <stop offset="100%" stop-color="#000" stop-opacity="0.5"/>
     </radialGradient>
     <linearGradient id="crt-beam" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#fff" stop-opacity="0.06"/>
-      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.015"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0.015"/>
     </linearGradient>
     <filter id="phosphor-glow" x="-10%" y="-10%" width="120%" height="120%">
       <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur"/>
@@ -353,19 +353,11 @@ export async function GET() {
       .crt-scan { animation: scan-scroll 1.2s linear infinite; transform-origin: 0 0; mix-blend-mode: overlay; }
       @keyframes beam-sweep {
         0%   { transform: translateY(-40px); }
-        0%   { transform: translateY(-40px); }
-        8%   { transform: translateY(60px); }
-        18%  { transform: translateY(160px); }
-        26%  { transform: translateY(200px); }
-        40%  { transform: translateY(340px); }
-        48%  { transform: translateY(370px); }
-        62%  { transform: translateY(500px); }
-        70%  { transform: translateY(530px); }
-        85%  { transform: translateY(760px); }  /* reaches bottom */
-        100% { transform: translateY(760px); }  /* hold before flyback */
-        100% { transform: translateY(760px); }  /* hold before flyback */
+        20%  { transform: translateY(-40px); }
+        85%  { transform: translateY(760px); }
+        100% { transform: translateY(760px); }
       }
-      .crt-beam { animation: beam-sweep 11.25s linear infinite; transform-origin: 0 0; pointer-events: none; mix-blend-mode: screen; }
+      .crt-beam { animation: beam-sweep 25s linear infinite; transform-origin: 0 0; pointer-events: none; mix-blend-mode: screen; }
     </style>
   </defs>
 
