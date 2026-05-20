@@ -24,18 +24,8 @@ export default function Page() {
   return (
     <main className="min-h-screen px-4 py-10 sm:px-8">
       <div className="mx-auto max-w-4xl">
-        <div className="mb-8 text-sm text-muted-foreground">
-          <span className="text-term-green">~</span>
-          <span className="mx-1 text-term-blue">❯</span>
-          <span>curl readme.svg</span>
-          <span className="ml-1 cursor-blink text-term-green">▍</span>
-        </div>
-
         <h1 className="mb-2 text-2xl font-bold">
-          <span className="text-term-green">solenad</span>
-          <span className="text-muted-foreground">@</span>
-          <span className="text-term-yellow">github</span>
-          <span className="text-foreground"> — readme card</span>
+          <span className="text-term-green">roe's github readme card</span>
         </h1>
         <p className="mb-8 text-sm text-muted-foreground">
           Live preview of the SVG GitHub will render. Stats refresh every ~30
