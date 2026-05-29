@@ -2,32 +2,30 @@ const ASCII = `
 ⠀
 
 
-
-
-⠀⠀⠀⠀⠀⠀⠀⠀⣀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢠⣾⠟⠓⣯⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⣾⠞⠳⣷⣄⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⣏⣿⠀⠀⠿⣾⠶⠾⠶⠶⠶⠶⠭⢶⣶⣿⣇⠀⢀⣿⣿⡀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⢠⣮⡏⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠈⢿⣕⢄⠀⠀⠀
-⠀⠀⠀⣠⣾⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢷⣕⠄⠀⠀
-⠀⠀⣴⣿⠋⠀⠀⠀⠀⠀⠀⠀⢀⣤⣄⠀⠀⠀⠀⠀⠀⢀⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣾⡄⠀
-⠀⢸⣿⠃⠀⠀⠀⠀⠀⠀⠀⢀⡴⠶⣤⡀⠀⠀⠀⠀⠀⠀⣠⠤⣄⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⡀
-⠀⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⢺⣷⠴⢿⡇⠀⠀⠀⠀⠀⢸⣧⠤⢿⡆⠀⠀⠀⠀⠀⠀⠀⠀⣿⡇
+⠀⠀⠀⠀⠀⠀⠀⣀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⢠⣾⠟⠓⣯⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⣾⠞⠳⣷⣄⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⣏⣿⠀⠀⠿⣾⠶⠾⠶⠶⠶⠶⠭⢶⣶⣿⣇⠀⢀⣿⣿⡀⠀⠀⠀⠀
+⠀⠀⠀⠀⢠⣮⡏⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠈⢿⣕⢄⠀⠀⠀
+⠀⠀⣠⣾⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢷⣕⠄⠀⠀
+⠀⣴⣿⠋⠀⠀⠀⠀⠀⠀⠀⢀⣤⣄⠀⠀⠀⠀⠀⠀⢀⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣾⡄⠀
+⢸⣿⠃⠀⠀⠀⠀⠀⠀⠀⢀⡴⠶⣤⡀⠀⠀⠀⠀⠀⠀⣠⠤⣄⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⡀
+⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⢺⣷⠴⢿⡇⠀⠀⠀⠀⠀⢸⣧⠤⢿⡆⠀⠀⠀⠀⠀⠀⠀⠀⣿⡇
 ⢐⣿⡇⠀⠀⠀⠀⣰⣆⡇⣥⣢⡙⠒⠋⠀⠀⠀⣀⠀⠀⠈⠛⠒⢛⣄⣆⣒⢠⡀⠀⠀⠀⣿⡁
 ⠀⣿⡇⠀⠀⠀⠀⠏⢸⠑⣏⠟⠀⠀⠀⠀⢦⣤⠿⣄⡴⠀⠀⠀⠸⠣⠏⠟⡼⠇⠀⠀⢠⣿⡇
-⠀⠹⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠶⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⡟⠀
-⠀⠀⠙⡿⣆⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⿿⠋⠀⠀
-⠀⠀⠀⠀⠉⣿⡶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀☘⢫⣿⠁⠀⠀⠀
-⠀⠀⠀⠀⠀⣽⡇⢰⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡇⢘⣿⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⢻⢧⣼⡃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣧⣸⡟⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠈⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡿⠉⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡇⠀⠀⠀⠀⠀⠀
+⠀⠹⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠶⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⡟⠀
+⠀⠀⠙⡿⣆⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⿿⠋⠀⠀
+⠀⠀⠀⠀⠉⣿⡶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀☘⢫⣿⠁⠀⠀⠀
+⠀⠀⠀⠀⠀⣽⡇⢰⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡇⢘⣿⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢻⢧⣼⡃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣧⣸⡟⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠈⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡿⠉⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⢿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡇⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠸⣿⠃⢸⣶⣦⣤⣤⣄⣠⣀⣠⣀⣤⣤⣤⣶⠄⣿⡇⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠘⡿⣆⣼⡞⠈⠈⠉⠉⠙⠒⠓⠉⠉⠉⣽⣷⣠⣿⠃⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠓⠁⠀⠀⠀⠀⠀⠀⠀`;
+⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠓⠁⠀⠀⠀⠀⠀⠀`;
 
-const INFO: Array<{ key: string; value: string; color: string }> = [
+const DEFAULT_INFO: Array<{ key: string; value: string; color: string }> = [
   { key: "distro", value: "Windows 11", color: "#8bd5ca" },
-  { key: "host", value: "Roe Dizon", color: "#eed49f" },
+  { key: "host", value: "Solenad", color: "#eed49f" },
   { key: "uptime", value: "21 years", color: "#a6da95" },
   {
     key: "kernel",
@@ -88,14 +86,14 @@ function esc(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
-async function fetchStats() {
+async function fetchStats(username: string) {
   try {
     const [uRes, rRes] = await Promise.all([
-      fetch("https://api.github.com/users/Solenad", {
-        headers: { "User-Agent": "solenad-readme-svg" },
+      fetch(`https://api.github.com/users/${username}`, {
+        headers: { "User-Agent": "chiikawa-readme-svg" },
       }),
-      fetch("https://api.github.com/users/Solenad/repos?per_page=100", {
-        headers: { "User-Agent": "solenad-readme-svg" },
+      fetch(`https://api.github.com/users/${username}/repos?per_page=100`, {
+        headers: { "User-Agent": "chiikawa-readme-svg" },
       }),
     ]);
     const u = await uRes.json();
@@ -123,45 +121,35 @@ const TW_P1 = "i have something very important to say";
 const TW_P2 = "tung tung tung sahur";
 const TW_CYCLE_MS = 9500;
 const TW_PHASE: Array<{ dur: number; label: string }> = [
-  { dur: 2400, label: "type p1" }, // 0–1200ms
-  { dur: 1500, label: "hold p1" }, // 1200–2700ms
-  { dur: 600, label: "delete p1" }, // 2700–3300ms
-  { dur: 500, label: "hold empty" }, // 3300–3800ms
-  { dur: 2700, label: "type p2" }, // 3800–6500ms
-  { dur: 3000, label: "hold p2" }, // 6500–9500ms
+  { dur: 2400, label: "type p1" },
+  { dur: 1500, label: "hold p1" },
+  { dur: 600, label: "delete p1" },
+  { dur: 500, label: "hold empty" },
+  { dur: 2700, label: "type p2" },
+  { dur: 3000, label: "hold p2" },
 ];
 
-/** Compute a cumulative offset map from the phase durations. */
 const PHASE_OFFSETS: number[] = [];
 let acc = 0;
 for (const p of TW_PHASE) {
   PHASE_OFFSETS.push(acc);
   acc += p.dur;
 }
-const TOTAL = acc; // 9500
+const TOTAL = acc;
 
-/** Convert ms offset → percentage of full cycle */
 function pct(ms: number): number {
   return (ms / TOTAL) * 100;
 }
 
-/**
- * Build @keyframes tw-p1:
- *   type (12 chars) → hold → delete (12 chars) → hidden
- * @keyframes tw-p2:
- *   hidden → type (27 chars) → hold
- */
 function genTwCSS(): string {
-  // ── phrase 1 ──
-  const p1In = PHASE_OFFSETS[0]; // 0
-  const p1InEnd = PHASE_OFFSETS[1]; // 1200
-  const p1Hold = PHASE_OFFSETS[2]; // 2700
-  const p1Out = PHASE_OFFSETS[3]; // 3300
-  const p1OutEnd = PHASE_OFFSETS[4]; // 3800
-  const chars1 = TW_P1.length; // 12
+  const p1In = PHASE_OFFSETS[0];
+  const p1InEnd = PHASE_OFFSETS[1];
+  const p1Hold = PHASE_OFFSETS[2];
+  const p1Out = PHASE_OFFSETS[3];
+  const p1OutEnd = PHASE_OFFSETS[4];
+  const chars1 = TW_P1.length;
 
   const p1Stops: string[] = [];
-  // type
   for (let i = 0; i <= chars1; i++) {
     const t = pct(p1In + (i / chars1) * (p1InEnd - p1In));
     const right = ((chars1 - i) / chars1) * 100;
@@ -169,9 +157,7 @@ function genTwCSS(): string {
       `    ${t.toFixed(2)}%{clip-path:inset(0 ${right.toFixed(1)}% 0 0)}`,
     );
   }
-  // hold
   p1Stops.push(`    ${pct(p1Hold).toFixed(2)}%{clip-path:inset(0 0% 0 0)}`);
-  // delete (reverse)
   for (let i = 1; i <= chars1; i++) {
     const t = pct(p1Hold + (i / chars1) * (p1Out - p1Hold));
     const right = (i / chars1) * 100;
@@ -179,21 +165,17 @@ function genTwCSS(): string {
       `    ${t.toFixed(2)}%{clip-path:inset(0 ${right.toFixed(1)}% 0 0)}`,
     );
   }
-  // hidden after delete
   p1Stops.push(`    ${pct(p1OutEnd).toFixed(2)}%{clip-path:inset(0 100% 0 0)}`);
   p1Stops.push(`    100%{clip-path:inset(0 100% 0 0)}`);
 
-  // ── phrase 2 ──
-  const p2In = PHASE_OFFSETS[4]; // 3800
-  const p2InEnd = PHASE_OFFSETS[5]; // 6500
-  const p2Hold = PHASE_OFFSETS[6]; // 9500
-  const chars2 = TW_P2.length; // 27
+  const p2In = PHASE_OFFSETS[4];
+  const p2InEnd = PHASE_OFFSETS[5];
+  const p2Hold = PHASE_OFFSETS[6];
+  const chars2 = TW_P2.length;
 
   const p2Stops: string[] = [];
-  // hidden before type
   p2Stops.push(`    0%{clip-path:inset(0 100% 0 0)}`);
   p2Stops.push(`    ${pct(p2In).toFixed(2)}%{clip-path:inset(0 100% 0 0)}`);
-  // type
   for (let i = 1; i <= chars2; i++) {
     const t = pct(p2In + (i / chars2) * (p2InEnd - p2In));
     const right = ((chars2 - i) / chars2) * 100;
@@ -201,11 +183,9 @@ function genTwCSS(): string {
       `    ${t.toFixed(2)}%{clip-path:inset(0 ${right.toFixed(1)}% 0 0)}`,
     );
   }
-  // hold
   p2Stops.push(`    ${pct(p2Hold).toFixed(2)}%{clip-path:inset(0 0% 0 0)}`);
   p2Stops.push(`    100%{clip-path:inset(0 0% 0 0)}`);
 
-  // ── empty-phase cursor (visible only during "hold empty") ──
   const cemptyStops: string[] = [];
   cemptyStops.push(`    0%{opacity:0}`);
   cemptyStops.push(`    ${pct(p1Out).toFixed(2)}%{opacity:0}`);
@@ -224,8 +204,22 @@ function genTwCSS(): string {
       .tw-box{clip-path:inset(0 100% 0 0)}`;
 }
 
-export async function GET() {
-  const stats = await fetchStats();
+function buildInfo(params: URLSearchParams) {
+  return DEFAULT_INFO.map((row) => {
+    const paramVal = params.get(row.key);
+    if (paramVal !== null) {
+      return { ...row, value: paramVal };
+    }
+    return row;
+  });
+}
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const username = searchParams.get("username") || "Solenad";
+  const showAscii = searchParams.get("ascii") !== "0";
+  const info = buildInfo(searchParams);
+  const stats = await fetchStats(username);
 
   const W = 900;
   const H = 760;
@@ -236,7 +230,7 @@ export async function GET() {
   const asciiLineH = 12;
   const asciiLines = ASCII.split("\n");
 
-  const infoX = 340;
+  const infoX = showAscii ? 340 : 30;
   const headerY = 70;
   const rowStartY = 120;
   const rowH = 26;
@@ -254,6 +248,26 @@ export async function GET() {
     { label: "following", value: stats.following, color: "#f5bde6" },
     { label: "total stars", value: stats.stars, color: "#eed49f" },
   ];
+
+  const asciiSection = showAscii
+    ? `
+  <g transform="translate(${asciiX}, ${asciiY})" fill="#8bd5ca">
+    <g filter="url(#glow)" opacity="0.55">
+      ${asciiLines
+        .map(
+          (line, i) =>
+            `<text x="0" y="${i * asciiLineH}" font-size="${asciiSize}" xml:space="preserve">${esc(line)}</text>`,
+        )
+        .join("\n      ")}
+    </g>
+    ${asciiLines
+      .map(
+        (line, i) =>
+          `<text x="0" y="${i * asciiLineH}" font-size="${asciiSize}" xml:space="preserve">${esc(line)}</text>`,
+      )
+      .join("\n    ")}
+  </g>`
+    : "";
 
   const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" font-family="ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace">
@@ -302,9 +316,9 @@ export async function GET() {
         48%  { transform: translateY(370px); }
         62%  { transform: translateY(500px); }
         70%  { transform: translateY(530px); }
-        85%  { transform: translateY(760px); }  /* reaches bottom */
-        100% { transform: translateY(760px); }  /* hold before flyback */
-        100% { transform: translateY(760px); }  /* hold before flyback */
+        85%  { transform: translateY(760px); }
+        100% { transform: translateY(760px); }
+        100% { transform: translateY(760px); }
       }
       .crt-beam { animation: beam-sweep 11.25s linear infinite; transform-origin: 0 0; pointer-events: none; mix-blend-mode: screen; }
     </style>
@@ -316,39 +330,26 @@ export async function GET() {
   <circle cx="22" cy="22" r="6" fill="#ed8796"/>
   <circle cx="42" cy="22" r="6" fill="#eed49f"/>
   <circle cx="62" cy="22" r="6" fill="#a6da95"/>
-  <text x="${W / 2}" y="26" fill="#a5adcb" font-size="12" text-anchor="middle">solenad@github</text>
+  <text x="${W / 2}" y="26" fill="#a5adcb" font-size="12" text-anchor="middle">${esc(username)}@github</text>
 
-  <g transform="translate(${asciiX}, ${asciiY})" fill="#8bd5ca">
-    <g filter="url(#glow)" opacity="0.55">
-      ${asciiLines
-        .map(
-          (line, i) =>
-            `<text x="0" y="${i * asciiLineH}" font-size="${asciiSize}" xml:space="preserve">${esc(line)}</text>`,
-        )
-        .join("\n      ")}
-    </g>
-    ${asciiLines
-      .map(
-        (line, i) =>
-          `<text x="0" y="${i * asciiLineH}" font-size="${asciiSize}" xml:space="preserve">${esc(line)}</text>`,
-      )
-      .join("\n    ")}
-  </g>
+  ${asciiSection}
 
   <text x="${infoX}" y="${headerY}" font-size="24" font-weight="700" filter="url(#phosphor-glow)">
-    <tspan fill="#b7bdf8">roe</tspan>
+    <tspan fill="#b7bdf8">${esc(info.find((r) => r.key === "host")?.value || username)}</tspan>
   </text>
-  <text x="${infoX}" y="${headerY + 22}" fill="#363a4f" font-size="13" xml:space="preserve">${"─".repeat(48)}</text>
+  <text x="${infoX}" y="${headerY + 22}" fill="#363a4f" font-size="13" xml:space="preserve">${"─".repeat(showAscii ? 48 : 80)}</text>
 
-  ${INFO.map((row, i) => {
-    const y = rowStartY + i * rowH;
-    return `<g>
+  ${info
+    .map((row, i) => {
+      const y = rowStartY + i * rowH;
+      return `<g>
     <text x="${infoX}" y="${y}" font-size="13" font-weight="700" fill="${row.color}">${esc(row.key)}</text>
     <text x="${infoX + keyColW}" y="${y}" font-size="13" fill="#cad3f5">${esc(row.value)}</text>
   </g>`;
-  }).join("\n  ")}
+    })
+    .join("\n  ")}
 
-  <g filter="url(#phosphor-glow)" transform="translate(${infoX}, ${rowStartY + INFO.length * rowH + 14})">
+  <g filter="url(#phosphor-glow)" transform="translate(${infoX}, ${rowStartY + info.length * rowH + 14})">
     ${PALETTE.map(
       (c, i) =>
         `<circle cx="${i * 22 + 8}" cy="8" r="7" fill="${c}" class="pulse" style="animation-delay: ${i * 0.15}s"/>`,
@@ -357,7 +358,7 @@ export async function GET() {
 
   <text x="30" y="${statsY - 20}" fill="#363a4f" font-size="13" xml:space="preserve">${"━".repeat(95)}</text>
   <text x="30" y="${statsY - 38}" font-size="13" filter="url(#phosphor-glow)">
-    <tspan fill="#a6da95">~</tspan><tspan fill="#a5adcb"> </tspan><tspan fill="#8aadf4">❯</tspan><tspan fill="#cad3f5" xml:space="preserve"> gh stats --user Solenad</tspan>
+    <tspan fill="#a6da95">~</tspan><tspan fill="#a5adcb"> </tspan><tspan fill="#8aadf4">❯</tspan><tspan fill="#cad3f5" xml:space="preserve"> gh stats --user ${esc(username)}</tspan>
   </text>
 
   ${statCards
