@@ -38,3 +38,13 @@ next-env.d.ts
 # agentic environment
 .opencode/
 openspec/
+
+# OpenNext
+.open-next
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+
+!.env.example
