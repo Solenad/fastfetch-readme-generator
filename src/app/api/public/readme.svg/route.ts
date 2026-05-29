@@ -1,3 +1,5 @@
+import { getTheme, type Theme } from "@/lib/themes"
+
 const ASCII = `
 ⠀
 
@@ -23,60 +25,24 @@ const ASCII = `
 ⠀⠀⠀⠀⠀⠀⠀⠘⡿⣆⣼⡞⠈⠈⠉⠉⠙⠒⠓⠉⠉⠉⣽⣷⣠⣿⠃⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠓⠁⠀⠀⠀⠀⠀⠀`;
 
-const DEFAULT_INFO: Array<{ key: string; value: string; color: string }> = [
-  { key: "distro", value: "Windows 11", color: "#8bd5ca" },
-  { key: "host", value: "Solenad", color: "#eed49f" },
-  { key: "uptime", value: "21 years", color: "#a6da95" },
-  {
-    key: "kernel",
-    value: "Software Developer Intern @ Siklab, Tech Lead @ LSCS",
-    color: "#f5bde6",
-  },
-  {
-    key: "school",
-    value: "BS Computer Science @ De La Salle University Manila",
-    color: "#8aadf4",
-  },
-  { key: "shell", value: "PowerShell + WezTerm", color: "#c6a0f6" },
-  { key: "wm", value: "GlazeWM + Zebar", color: "#f5a97f" },
-  { key: "editor", value: "Neovim", color: "#a6da95" },
-  {
-    key: "languages",
-    value: "C, Java, JavaScript, TypeScript, Python, R",
-    color: "#91d7e3",
-  },
-  {
-    key: "stack",
-    value: "React, Next.js, Node.js, Express, Django",
-    color: "#eed49f",
-  },
-  {
-    key: "db",
-    value: "PostgreSQL, MySQL, MongoDB, Redis, SQLite",
-    color: "#ee99a0",
-  },
-  {
-    key: "tools",
-    value: "Git, Docker, GitHub Actions, Contentful",
-    color: "#b7bdf8",
-  },
-  {
-    key: "ai",
-    value: "Opencode, Openspec",
-    color: "#b7bdf8",
-  },
-];
-
-const PALETTE = [
-  "#ed8796",
-  "#f5a97f",
-  "#eed49f",
-  "#a6da95",
-  "#8bd5ca",
-  "#8aadf4",
-  "#c6a0f6",
-  "#f5bde6",
-];
+function getDefaultInfo(theme: Theme): Array<{ key: string; value: string; color: string }> {
+  const p = theme.palette;
+  return [
+    { key: "distro", value: "Windows 11", color: p[0] },
+    { key: "host", value: "Solenad", color: p[1] },
+    { key: "uptime", value: "21 years", color: p[2] },
+    { key: "kernel", value: "Software Developer Intern @ Siklab, Tech Lead @ LSCS", color: p[3] },
+    { key: "school", value: "BS Computer Science @ De La Salle University Manila", color: p[4] },
+    { key: "shell", value: "PowerShell + WezTerm", color: p[5] },
+    { key: "wm", value: "GlazeWM + Zebar", color: p[6] },
+    { key: "editor", value: "Neovim", color: p[7] },
+    { key: "languages", value: "C, Java, JavaScript, TypeScript, Python, R", color: p[0] },
+    { key: "stack", value: "React, Next.js, Node.js, Express, Django", color: p[1] },
+    { key: "db", value: "PostgreSQL, MySQL, MongoDB, Redis, SQLite", color: p[2] },
+    { key: "tools", value: "Git, Docker, GitHub Actions, Contentful", color: p[3] },
+    { key: "ai", value: "Opencode, Openspec", color: p[4] },
+  ];
+}
 
 function esc(s: string): string {
   return s
@@ -90,10 +56,10 @@ async function fetchStats(username: string) {
   try {
     const [uRes, rRes] = await Promise.all([
       fetch(`https://api.github.com/users/${username}`, {
-        headers: { "User-Agent": "fastfetch-readme-svg" },
+        headers: { "User-Agent": "RiceMe" },
       }),
       fetch(`https://api.github.com/users/${username}/repos?per_page=100`, {
-        headers: { "User-Agent": "fastfetch-readme-svg" },
+        headers: { "User-Agent": "RiceMe" },
       }),
     ]);
     const u = await uRes.json();
@@ -204,8 +170,8 @@ function genTwCSS(): string {
       .tw-box{clip-path:inset(0 100% 0 0)}`;
 }
 
-function buildInfo(params: URLSearchParams) {
-  return DEFAULT_INFO.map((row) => {
+function buildInfo(params: URLSearchParams, theme: Theme) {
+  return getDefaultInfo(theme).map((row) => {
     const paramVal = params.get(row.key);
     if (paramVal !== null) {
       return { ...row, value: paramVal };
@@ -216,11 +182,14 @@ function buildInfo(params: URLSearchParams) {
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const username = searchParams.get("username") || "Solenad";
+  const rawUsername = searchParams.get("username");
+  const username = rawUsername === null ? "Solenad" : (rawUsername || "your-username");
   const showAscii = searchParams.get("ascii") !== "0";
   const showCrt = searchParams.get("crt") !== "0";
   const customAscii = searchParams.get("ascii_art");
-  const info = buildInfo(searchParams);
+  const themeName = searchParams.get("theme") || "";
+  const theme = getTheme(themeName);
+  const info = buildInfo(searchParams, theme);
   const stats = await fetchStats(username);
 
   const W = 900;
@@ -246,16 +215,17 @@ export async function GET(request: Request) {
   const cardGap = 20;
   const cardStartX = 30;
 
+  const p = theme.palette;
   const statCards = [
-    { label: "public repos", value: stats.repos, color: "#a6da95" },
-    { label: "followers", value: stats.followers, color: "#8bd5ca" },
-    { label: "following", value: stats.following, color: "#f5bde6" },
-    { label: "total stars", value: stats.stars, color: "#eed49f" },
+    { label: "public repos", value: stats.repos, color: p[3] },
+    { label: "followers", value: stats.followers, color: p[4] },
+    { label: "following", value: stats.following, color: p[7] },
+    { label: "total stars", value: stats.stars, color: p[2] },
   ];
 
   const asciiSection = showAscii
     ? `
-  <g transform="translate(${asciiX}, ${asciiY})" fill="#8bd5ca">
+  <g transform="translate(${asciiX}, ${asciiY})" fill="${theme.ascii}">
     <g filter="url(#glow)" opacity="0.55">
       ${asciiLines
       .map(
@@ -302,8 +272,8 @@ export async function GET(request: Request) {
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" font-family="ui-monospace, 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#24273a"/>
-      <stop offset="100%" stop-color="#1e2030"/>
+      <stop offset="0%" stop-color="${theme.bg}"/>
+      <stop offset="100%" stop-color="${theme.bgEnd}"/>
     </linearGradient>
     <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
       <feGaussianBlur stdDeviation="2.5"/>
@@ -337,66 +307,66 @@ export async function GET(request: Request) {
   </defs>
 
   <rect width="${W}" height="${H}" fill="url(#bg)" rx="12"/>
-  <rect x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" fill="none" stroke="#494d64" rx="12"/>
+  <rect x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" fill="none" stroke="${theme.border}" rx="12"/>
 
-  <circle cx="22" cy="22" r="6" fill="#ed8796"/>
-  <circle cx="42" cy="22" r="6" fill="#eed49f"/>
-  <circle cx="62" cy="22" r="6" fill="#a6da95"/>
-  <text x="${W / 2}" y="26" fill="#a5adcb" font-size="12" text-anchor="middle">${esc(username)}@github</text>
+  <circle cx="22" cy="22" r="6" fill="${p[0]}"/>
+  <circle cx="42" cy="22" r="6" fill="${p[2]}"/>
+  <circle cx="62" cy="22" r="6" fill="${p[3]}"/>
+  <text x="${W / 2}" y="26" fill="${theme.muted}" font-size="12" text-anchor="middle">${esc(username)}@github</text>
 
   ${asciiSection}
 
   <text x="${infoX}" y="${headerY}" font-size="24" font-weight="700" filter="url(#phosphor-glow)">
-    <tspan fill="#b7bdf8">${esc(info.find((r) => r.key === "host")?.value || username)}</tspan>
+    <tspan fill="${theme.host}">${esc(info.find((r) => r.key === "host")?.value || username)}</tspan>
   </text>
-  <text x="${infoX}" y="${headerY + 22}" fill="#363a4f" font-size="13" xml:space="preserve">${"─".repeat(showAscii ? 48 : 80)}</text>
+  <text x="${infoX}" y="${headerY + 22}" fill="${theme.card}" font-size="13" xml:space="preserve">${"─".repeat(showAscii ? 48 : 80)}</text>
 
   ${info
         .map((row, i) => {
           const y = rowStartY + i * rowH;
           return `<g>
     <text x="${infoX}" y="${y}" font-size="13" font-weight="700" fill="${row.color}">${esc(row.key)}</text>
-    <text x="${infoX + keyColW}" y="${y}" font-size="13" fill="#cad3f5">${esc(row.value)}</text>
+    <text x="${infoX + keyColW}" y="${y}" font-size="13" fill="${theme.fg}">${esc(row.value)}</text>
   </g>`;
         })
         .join("\n  ")}
 
   <g filter="url(#phosphor-glow)" transform="translate(${infoX}, ${rowStartY + info.length * rowH + 14})">
-    ${PALETTE.map(
+    ${theme.palette.map(
           (c, i) =>
             `<circle cx="${i * 22 + 8}" cy="8" r="7" fill="${c}" class="pulse" style="animation-delay: ${i * 0.15}s"/>`,
         ).join("\n    ")}
   </g>
 
-  <text x="30" y="${statsY - 20}" fill="#363a4f" font-size="13" xml:space="preserve">${"━".repeat(95)}</text>
+  <text x="30" y="${statsY - 20}" fill="${theme.card}" font-size="13" xml:space="preserve">${"━".repeat(95)}</text>
   <text x="30" y="${statsY - 38}" font-size="13" filter="url(#phosphor-glow)">
-    <tspan fill="#a6da95">~</tspan><tspan fill="#a5adcb"> </tspan><tspan fill="#8aadf4">❯</tspan><tspan fill="#cad3f5" xml:space="preserve"> gh stats --user ${esc(username)}</tspan>
+    <tspan fill="${theme.prompt}">~</tspan><tspan fill="${theme.muted}"> </tspan><tspan fill="${theme.promptAccent}">❯</tspan><tspan fill="${theme.fg}" xml:space="preserve"> gh stats --user ${esc(username)}</tspan>
   </text>
 
   ${statCards
         .map((s, i) => {
           const x = cardStartX + i * (cardW + cardGap);
           return `<g>
-    <rect x="${x}" y="${statsY}" width="${cardW}" height="${cardH}" rx="8" fill="#363a4f" stroke="#494d64"/>
+    <rect x="${x}" y="${statsY}" width="${cardW}" height="${cardH}" rx="8" fill="${theme.card}" stroke="${theme.border}"/>
     <text x="${x + 16}" y="${statsY + 50}" font-size="34" font-weight="700" fill="${s.color}" filter="url(#phosphor-glow)">${s.value.toLocaleString()}</text>
-    <text x="${x + 16}" y="${statsY + 74}" font-size="12" fill="#a5adcb">${esc(s.label)}</text>
+    <text x="${x + 16}" y="${statsY + 74}" font-size="12" fill="${theme.muted}">${esc(s.label)}</text>
   </g>`;
         })
         .join("\n  ")}
 
   <text x="30" y="${H - 30}" font-size="13" filter="url(#phosphor-glow)">
-    <tspan fill="#a6da95">~</tspan><tspan fill="#a5adcb"> </tspan><tspan fill="#8aadf4">❯</tspan><tspan fill="#a5adcb"> </tspan>
+    <tspan fill="${theme.prompt}">~</tspan><tspan fill="${theme.muted}"> </tspan><tspan fill="${theme.promptAccent}">❯</tspan><tspan fill="${theme.muted}"> </tspan>
   </text>
   <g class="tw-p1 tw-box">
-    <text x="65" y="${H - 30}" font-size="13" font-family="monospace" fill="#cad3f5">${esc(TW_P1)}<tspan><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.49;0.5;1" dur="1s" repeatCount="indefinite" />▍</tspan></text>
+    <text x="65" y="${H - 30}" font-size="13" font-family="monospace" fill="${theme.fg}">${esc(TW_P1)}<tspan><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.49;0.5;1" dur="1s" repeatCount="indefinite" />▍</tspan></text>
   </g>
   <g class="tw-p2 tw-box">
-    <text x="65" y="${H - 30}" font-size="13" font-family="monospace" fill="#cad3f5">${esc(TW_P2)}<tspan><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.49;0.5;1" dur="1s" repeatCount="indefinite" />▍</tspan></text>
+    <text x="65" y="${H - 30}" font-size="13" font-family="monospace" fill="${theme.fg}">${esc(TW_P2)}<tspan><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.49;0.5;1" dur="1s" repeatCount="indefinite" />▍</tspan></text>
   </g>
   <g class="tw-cempty">
-    <text x="65" y="${H - 30}" font-size="13" font-family="monospace" fill="#cad3f5"><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.49;0.5;1" dur="1s" repeatCount="indefinite" />▍</text>
+    <text x="65" y="${H - 30}" font-size="13" font-family="monospace" fill="${theme.fg}"><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.49;0.5;1" dur="1s" repeatCount="indefinite" />▍</text>
   </g>
-  <text x="30" y="${H - 12}" font-size="12" fill="#a5adcb">
+  <text x="30" y="${H - 12}" font-size="12" fill="${theme.muted}">
   </text>
   ${crtOverlay}
 </svg>`;

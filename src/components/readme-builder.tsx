@@ -3,26 +3,82 @@
 import { useState, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { motion } from "motion/react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { THEMES, DEFAULT_THEME } from "@/lib/themes";
 
 const FIELD_DEFS = [
-  { key: "distro", label: "Distro", color: "#8bd5ca", placeholder: "Windows 11" },
+  {
+    key: "distro",
+    label: "Distro",
+    color: "#8bd5ca",
+    placeholder: "Windows 11",
+  },
   { key: "host", label: "Host", color: "#eed49f", placeholder: "Solenad" },
   { key: "uptime", label: "Uptime", color: "#a6da95", placeholder: "21 years" },
-  { key: "kernel", label: "Kernel", color: "#f5bde6", placeholder: "Software Developer Intern..." },
-  { key: "school", label: "School", color: "#8aadf4", placeholder: "BS Computer Science..." },
-  { key: "shell", label: "Shell", color: "#c6a0f6", placeholder: "PowerShell + WezTerm" },
+  {
+    key: "kernel",
+    label: "Kernel",
+    color: "#f5bde6",
+    placeholder: "Software Developer Intern...",
+  },
+  {
+    key: "school",
+    label: "School",
+    color: "#8aadf4",
+    placeholder: "BS Computer Science...",
+  },
+  {
+    key: "shell",
+    label: "Shell",
+    color: "#c6a0f6",
+    placeholder: "PowerShell + WezTerm",
+  },
   { key: "wm", label: "WM", color: "#f5a97f", placeholder: "GlazeWM + Zebar" },
   { key: "editor", label: "Editor", color: "#a6da95", placeholder: "Neovim" },
-  { key: "languages", label: "Languages", color: "#91d7e3", placeholder: "C, Java, JavaScript..." },
-  { key: "stack", label: "Stack", color: "#eed49f", placeholder: "React, Next.js..." },
-  { key: "db", label: "DB", color: "#ee99a0", placeholder: "PostgreSQL, MySQL..." },
-  { key: "tools", label: "Tools", color: "#b7bdf8", placeholder: "Git, Docker..." },
-  { key: "ai", label: "AI", color: "#b7bdf8", placeholder: "Opencode, Openspec" },
+  {
+    key: "languages",
+    label: "Languages",
+    color: "#91d7e3",
+    placeholder: "C, Java, JavaScript...",
+  },
+  {
+    key: "stack",
+    label: "Stack",
+    color: "#eed49f",
+    placeholder: "React, Next.js...",
+  },
+  {
+    key: "db",
+    label: "DB",
+    color: "#ee99a0",
+    placeholder: "PostgreSQL, MySQL...",
+  },
+  {
+    key: "tools",
+    label: "Tools",
+    color: "#b7bdf8",
+    placeholder: "Git, Docker...",
+  },
+  {
+    key: "ai",
+    label: "AI",
+    color: "#b7bdf8",
+    placeholder: "Opencode, Openspec",
+  },
 ];
 
 const DEFAULT_VALUES: Record<string, string> = Object.fromEntries(
@@ -40,22 +96,29 @@ function yearsSince(dateStr: string): string {
 
 async function fetchProfile(username: string) {
   const res = await fetch(`https://api.github.com/users/${username}`, {
-    headers: { "User-Agent": "fastfetch-readme-builder" },
+    headers: { "User-Agent": "RiceMe" },
   });
   if (!res.ok) {
     if (res.status === 404) throw new Error("User not found on GitHub");
-    if (res.status === 403) throw new Error("Rate limited by GitHub. Try again later.");
+    if (res.status === 403)
+      throw new Error("Rate limited by GitHub. Try again later.");
     throw new Error(`GitHub API error (${res.status})`);
   }
   return res.json();
 }
 
-function mapProfileToFields(profile: Record<string, unknown>): Record<string, string> {
+function mapProfileToFields(
+  profile: Record<string, unknown>,
+): Record<string, string> {
   const fields: Record<string, string> = {};
-  if (typeof profile.name === "string" && profile.name) fields.host = profile.name;
-  if (typeof profile.bio === "string" && profile.bio) fields.kernel = profile.bio;
-  if (typeof profile.company === "string" && profile.company) fields.school = profile.company;
-  if (typeof profile.location === "string" && profile.location) fields.distro = profile.location;
+  if (typeof profile.name === "string" && profile.name)
+    fields.host = profile.name;
+  if (typeof profile.bio === "string" && profile.bio)
+    fields.kernel = profile.bio;
+  if (typeof profile.company === "string" && profile.company)
+    fields.school = profile.company;
+  if (typeof profile.location === "string" && profile.location)
+    fields.distro = profile.location;
   if (typeof profile.created_at === "string" && profile.created_at) {
     fields.uptime = yearsSince(profile.created_at);
   }
@@ -71,14 +134,74 @@ function useDebounce<T>(value: T, delay: number): T {
   return debounced;
 }
 
+const builderContainer = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.15, delayChildren: 0.15 },
+  },
+};
+
+const slideLeft = {
+  hidden: { opacity: 0, x: -30 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.4, ease: "easeOut" as const },
+  },
+};
+
+const slideRight = {
+  hidden: { opacity: 0, x: 30 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.4, ease: "easeOut" as const },
+  },
+};
+
+const fieldGrid = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.04 },
+  },
+};
+
+const fieldItem = {
+  hidden: { opacity: 0, y: 10 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.25, ease: "easeOut" as const },
+  },
+};
+
+const snippetContainer = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+  },
+};
+
+const snippetItem = {
+  hidden: { opacity: 0, y: 12 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.3, ease: "easeOut" as const },
+  },
+};
+
 export function ReadmeBuilder() {
   const [origin, setOrigin] = useState("");
   const [username, setUsername] = useState("");
   const [fetchTarget, setFetchTarget] = useState<string | null>(null);
-  const [fields, setFields] = useState<Record<string, string>>({ ...DEFAULT_VALUES });
+  const [fields, setFields] = useState<Record<string, string>>({
+    ...DEFAULT_VALUES,
+  });
   const [showAscii, setShowAscii] = useState(true);
   const [showCrt, setShowCrt] = useState(true);
   const [customAscii, setCustomAscii] = useState("");
+  const [selectedTheme, setSelectedTheme] = useState(DEFAULT_THEME);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   useEffect(() => {
@@ -111,8 +234,17 @@ export function ReadmeBuilder() {
   const debouncedFields = useDebounce(fields, 500);
   const debouncedUsername = useDebounce(username, 500);
   const debouncedAscii = useDebounce(customAscii, 500);
+  const debouncedTheme = useDebounce(selectedTheme, 200);
 
-  const previewUrl = buildPreviewUrl(origin, debouncedUsername, debouncedFields, showAscii, debouncedAscii, showCrt);
+  const previewUrl = buildPreviewUrl(
+    origin,
+    debouncedUsername,
+    debouncedFields,
+    showAscii,
+    debouncedAscii,
+    showCrt,
+    debouncedTheme,
+  );
 
   const updateField = useCallback((key: string, value: string) => {
     setFields((prev) => ({ ...prev, [key]: value }));
@@ -137,7 +269,15 @@ export function ReadmeBuilder() {
     );
   }, []);
 
-  const fullUrl = buildPreviewUrl(origin, username, fields, showAscii, customAscii, showCrt);
+  const fullUrl = buildPreviewUrl(
+    origin,
+    username,
+    fields,
+    showAscii,
+    customAscii,
+    showCrt,
+    selectedTheme,
+  );
   const markdown = `![${username}](${fullUrl})`;
   const html = `<p align="center">\n  <img src="${fullUrl}" alt="${username}" />\n</p>`;
 
@@ -149,12 +289,20 @@ export function ReadmeBuilder() {
   );
 
   return (
-    <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-      <div className="space-y-6">
+    <motion.div
+      className="grid grid-cols-1 gap-8 lg:grid-cols-2"
+      variants={builderContainer}
+      initial="hidden"
+      animate="show"
+    >
+      <motion.div className="space-y-6" variants={slideLeft}>
         <div>
           <div className="mb-4 flex items-end gap-3">
             <div className="flex-1">
-              <Label htmlFor="gh-username" className="mb-1.5 block text-xs text-muted-foreground">
+              <Label
+                htmlFor="gh-username"
+                className="mb-1.5 block text-xs text-muted-foreground"
+              >
                 GitHub Username
               </Label>
               <Input
@@ -183,21 +331,91 @@ export function ReadmeBuilder() {
             </Button>
           </div>
           <div className="flex items-center gap-3">
-            <Switch id="ascii-toggle" checked={showAscii} onCheckedChange={setShowAscii} />
-            <Label htmlFor="ascii-toggle" className="text-xs text-muted-foreground">
+            <Switch
+              id="ascii-toggle"
+              checked={showAscii}
+              onCheckedChange={setShowAscii}
+            />
+            <Label
+              htmlFor="ascii-toggle"
+              className="text-xs text-muted-foreground"
+            >
               Show ASCII art
             </Label>
           </div>
           <div className="mt-2 flex items-center gap-3">
-            <Switch id="crt-toggle" checked={showCrt} onCheckedChange={setShowCrt} />
-            <Label htmlFor="crt-toggle" className="text-xs text-muted-foreground">
+            <Switch
+              id="crt-toggle"
+              checked={showCrt}
+              onCheckedChange={setShowCrt}
+            />
+            <Label
+              htmlFor="crt-toggle"
+              className="text-xs text-muted-foreground"
+            >
               CRT effect
             </Label>
           </div>
+          <div className="mt-3">
+            <Label className="mb-1.5 block text-xs text-muted-foreground">
+              Theme
+            </Label>
+            <Select value={selectedTheme} onValueChange={setSelectedTheme}>
+              <SelectTrigger className="font-mono text-xs">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {(
+                  ["light", "warm-dark", "deep-dark", "cool-dark"] as const
+                ).map((cat) => {
+                  const catLabel =
+                    cat === "warm-dark"
+                      ? "Warm Dark"
+                      : cat === "deep-dark"
+                        ? "Deep Dark"
+                        : cat === "cool-dark"
+                          ? "Cool Dark"
+                          : "Light";
+                  const grouped = THEMES.filter((t) => t.category === cat);
+                  return (
+                    <SelectGroup key={cat}>
+                      <SelectLabel>{catLabel}</SelectLabel>
+                      {grouped.map((t) => (
+                        <SelectItem
+                          key={t.name}
+                          value={t.name}
+                          className="font-mono text-xs"
+                        >
+                          <span className="inline-flex items-center gap-2">
+                            <span className="inline-flex overflow-hidden rounded">
+                              {[t.bg, t.card, t.ascii, t.host, t.fg].map(
+                                (c, i) => (
+                                  <span
+                                    key={i}
+                                    className="inline-block h-4 w-3"
+                                    style={{ backgroundColor: c }}
+                                  />
+                                ),
+                              )}
+                            </span>
+                            {t.label}
+                          </span>
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  );
+                })}
+              </SelectContent>
+            </Select>
+          </div>
+
           {showAscii && (
             <div className="mt-3">
-              <Label htmlFor="ascii-art" className="mb-1 block text-xs text-muted-foreground">
-                Custom ASCII art (optional &mdash; paste your own and add whitespace above the art as needed)
+              <Label
+                htmlFor="ascii-art"
+                className="mb-1 block text-xs text-muted-foreground"
+              >
+                Custom ASCII art <br /> (add whitespace above the art as needed)
               </Label>
               <Textarea
                 id="ascii-art"
@@ -210,9 +428,14 @@ export function ReadmeBuilder() {
           )}
         </div>
 
-        <div className="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
+        <motion.div
+          className="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2"
+          variants={fieldGrid}
+          initial="hidden"
+          animate="show"
+        >
           {FIELD_DEFS.map((field) => (
-            <div key={field.key}>
+            <motion.div key={field.key} variants={fieldItem}>
               <Label
                 htmlFor={`field-${field.key}`}
                 className="mb-1 flex items-center gap-1.5 text-xs text-muted-foreground"
@@ -230,12 +453,12 @@ export function ReadmeBuilder() {
                 placeholder={field.placeholder}
                 className="font-mono text-xs placeholder:text-muted-foreground/30"
               />
-            </div>
+            </motion.div>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      <div className="space-y-6">
+      <motion.div className="space-y-6" variants={slideRight}>
         <div className="overflow-hidden rounded-lg border border-border bg-card/40 p-2">
           <img
             src={previewUrl}
@@ -250,28 +473,39 @@ export function ReadmeBuilder() {
           />
         </div>
 
-        <div className="space-y-3">
-          <Snippet
-            label="Markdown"
-            value={markdown}
-            copied={copiedKey === "md"}
-            onCopy={() => copy(markdown, "md")}
-          />
-          <Snippet
-            label="HTML (centered, for GitHub profile README)"
-            value={html}
-            copied={copiedKey === "html"}
-            onCopy={() => copy(html, "html")}
-          />
-          <Snippet
-            label="Direct image URL"
-            value={fullUrl}
-            copied={copiedKey === "url"}
-            onCopy={() => copy(fullUrl, "url")}
-          />
-        </div>
-      </div>
-    </div>
+        <motion.div
+          className="space-y-3"
+          variants={snippetContainer}
+          initial="hidden"
+          animate="show"
+        >
+          <motion.div variants={snippetItem}>
+            <Snippet
+              label="Markdown"
+              value={markdown}
+              copied={copiedKey === "md"}
+              onCopy={() => copy(markdown, "md")}
+            />
+          </motion.div>
+          <motion.div variants={snippetItem}>
+            <Snippet
+              label="HTML (centered, for GitHub profile README)"
+              value={html}
+              copied={copiedKey === "html"}
+              onCopy={() => copy(html, "html")}
+            />
+          </motion.div>
+          <motion.div variants={snippetItem}>
+            <Snippet
+              label="Direct image URL"
+              value={fullUrl}
+              copied={copiedKey === "url"}
+              onCopy={() => copy(fullUrl, "url")}
+            />
+          </motion.div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -293,7 +527,7 @@ function Snippet({
         <button
           type="button"
           onClick={onCopy}
-          className="cursor-pointer rounded border border-border bg-card px-2 py-1 font-bold text-term-green hover:border-term-green/60 hover:bg-card/80"
+          className="cursor-pointer rounded border border-border bg-card px-2 py-1 font-bold text-term-green hover:border-term-green/60 hover:bg-card/80 transition-all duration-200 hover:scale-[1.03] active:scale-[0.97]"
         >
           {copied ? "copied ✓" : "copy"}
         </button>
@@ -312,13 +546,15 @@ function buildPreviewUrl(
   showAscii: boolean,
   customAscii?: string,
   showCrt?: boolean,
+  theme?: string,
 ): string {
   const params = new URLSearchParams();
-  params.set("username", username || "Solenad");
+  params.set("username", username);
   params.set("ascii", showAscii ? "1" : "0");
   params.set("crt", showCrt !== false ? "1" : "0");
+  if (theme && theme !== DEFAULT_THEME) params.set("theme", theme);
   for (const [key, value] of Object.entries(fields)) {
-    if (value) params.set(key, value);
+    params.set(key, value);
   }
   if (customAscii) params.set("ascii_art", customAscii);
   const base = origin || "http://localhost:3000";
