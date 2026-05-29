@@ -50,7 +50,7 @@ function yearsSince(dateStr: string): string {
 
 async function fetchProfile(username: string) {
   const res = await fetch(`https://api.github.com/users/${username}`, {
-    headers: { "User-Agent": "fastfetch-readme-builder" },
+    headers: { "User-Agent": "RiceMe" },
   });
   if (!res.ok) {
     if (res.status === 404) throw new Error("User not found on GitHub");
@@ -223,7 +223,7 @@ export function ReadmeBuilder() {
                         <SelectItem key={t.name} value={t.name} className="font-mono text-xs">
                           <span className="inline-flex items-center gap-2">
                             <span className="inline-flex overflow-hidden rounded">
-                              {t.palette.slice(0, 5).map((c, i) => (
+                              {[t.bg, t.card, t.ascii, t.host, t.fg].map((c, i) => (
                                 <span key={i} className="inline-block h-4 w-3" style={{ backgroundColor: c }} />
                               ))}
                             </span>

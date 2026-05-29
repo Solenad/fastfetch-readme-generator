@@ -25,23 +25,81 @@ export default function Page() {
 
   return (
     <main className="min-h-screen px-4 py-10 sm:px-8">
-      <div className="mx-auto max-w-4xl">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold">
-            <span className="text-term-green">fastfetch readme generator</span>
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Dynamic GitHub README SVG card with a Catppuccin terminal aesthetic.
-            Stats refresh every ~30 min via GitHub&apos;s image cache.
-          </p>
-          <Link href="/build" className="mt-4 inline-block">
-            <Button variant="default" size="lg" className="cursor-pointer">
-              Build Your Own &rarr;
-            </Button>
-          </Link>
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="flex flex-col justify-center">
+          <div className="mb-6">
+            <p className="mb-1 text-xs text-term-cyan font-bold tracking-wider uppercase">
+              RiceMe v1.0
+            </p>
+            <h1 className="mb-2 text-3xl font-black leading-tight sm:text-4xl">
+              <span className="text-term-green">terminal aesthetic</span>
+              <br />
+              <span className="text-foreground">for your GitHub README</span>
+            </h1>
+            <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+              Dynamic terminal-style SVG cards with live GitHub stats, 23+
+              color themes, CRT effects, and typewriter animations. Drop it
+              into your profile README and watch it come alive.
+            </p>
+          </div>
+
+          <div className="mb-8 rounded-md border border-border bg-card/40 p-4 text-xs leading-relaxed text-muted-foreground">
+            <p className="mb-2 text-term-green font-bold">$ cat intro.txt</p>
+            <p className="mb-2">
+              hi! i&apos;m{" "}
+              <a
+                href="https://github.com/Solenad"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-term-cyan hover:underline"
+              >
+                Solenad
+              </a>
+              , a software developer from the philippines. i built this to make
+              GitHub profiles a little less boring and a lot more terminal-coded.
+            </p>
+            <p className="mb-2">
+              if you find this useful, consider starring the repo — it helps a
+              lot {"<"}3
+            </p>
+            <p>
+              <span className="text-term-green">~</span>{" "}
+              <span className="text-term-blue">❯</span>{" "}
+              <a
+                href="https://github.com/Solenad/chiikawa-readme"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-term-cyan hover:underline"
+              >
+                github.com/Solenad/chiikawa-readme
+              </a>
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-3">
+            <Link href="/build">
+              <Button variant="default" size="lg" className="cursor-pointer">
+                Build Your Own &rarr;
+              </Button>
+            </Link>
+            <a
+              href="https://github.com/Solenad/chiikawa-readme"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button
+                variant="outline"
+                size="lg"
+                className="cursor-pointer gap-2"
+              >
+                <StarIcon />
+                Star on GitHub
+              </Button>
+            </a>
+          </div>
         </div>
 
-        <section className="mb-16">
+        <div>
           <h2 className="mb-4 text-lg font-bold text-term-cyan">
             <span className="text-term-green">~</span>{" "}
             <span className="text-term-blue">❯</span> example
@@ -80,17 +138,11 @@ export default function Page() {
               GitHub READMEs only render images, not iframes or scripts. This
               endpoint returns a dynamic SVG that embeds live GitHub stats
               (repos, followers, following, total stars) fetched server-side.
-              GitHub&apos;s camo proxy caches the image, so updates appear within
-              ~30 minutes.
+              GitHub&apos;s camo proxy caches the image, so updates appear
+              within ~30 minutes.
             </p>
           </div>
-        </section>
-
-        <footer className="text-xs text-muted-foreground">
-          <span className="text-term-green">~</span>
-          <span className="mx-1 text-term-blue">❯</span>
-          <span className="cursor-blink">▍</span>
-        </footer>
+        </div>
       </div>
     </main>
   );
@@ -123,5 +175,24 @@ function Snippet({
         <code>{value}</code>
       </pre>
     </div>
+  );
+}
+
+function StarIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="inline-block"
+    >
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
   );
 }

@@ -56,10 +56,10 @@ async function fetchStats(username: string) {
   try {
     const [uRes, rRes] = await Promise.all([
       fetch(`https://api.github.com/users/${username}`, {
-        headers: { "User-Agent": "fastfetch-readme-svg" },
+        headers: { "User-Agent": "RiceMe" },
       }),
       fetch(`https://api.github.com/users/${username}/repos?per_page=100`, {
-        headers: { "User-Agent": "fastfetch-readme-svg" },
+        headers: { "User-Agent": "RiceMe" },
       }),
     ]);
     const u = await uRes.json();

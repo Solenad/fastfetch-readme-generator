@@ -7,11 +7,16 @@ export default function BuildPage() {
   return (
     <main className="min-h-screen px-4 py-10 sm:px-8">
       <div className="mx-auto max-w-5xl">
-        <h1 className="mb-2 text-2xl font-bold">
-          <Link href="/" className="text-term-green hover:underline">
-            fastfetch readme generator
+        <div className="mb-2 flex items-baseline justify-between">
+          <h1 className="text-2xl font-bold">
+            <Link href="/" className="text-term-green hover:underline">
+              RiceMe
+            </Link>
+          </h1>
+          <Link href="/" className="text-xs text-muted-foreground hover:text-foreground">
+            &larr; back
           </Link>
-        </h1>
+        </div>
 
         <section>
           <h2 className="mb-1 mt-8 text-lg font-bold">
@@ -23,12 +28,6 @@ export default function BuildPage() {
           </p>
           <ReadmeBuilder />
         </section>
-
-        <footer className="mt-16 text-xs text-muted-foreground">
-          <span className="text-term-green">~</span>
-          <span className="mx-1 text-term-blue">❯</span>
-          <span className="cursor-blink">▍</span>
-        </footer>
       </div>
     </main>
   );
