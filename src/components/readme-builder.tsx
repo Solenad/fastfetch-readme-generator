@@ -40,7 +40,7 @@ function yearsSince(dateStr: string): string {
 
 async function fetchProfile(username: string) {
   const res = await fetch(`https://api.github.com/users/${username}`, {
-    headers: { "User-Agent": "chiikawa-readme-builder" },
+    headers: { "User-Agent": "fastfetch-readme-builder" },
   });
   if (!res.ok) {
     if (res.status === 404) throw new Error("User not found on GitHub");
@@ -77,6 +77,7 @@ export function ReadmeBuilder() {
   const [fetchTarget, setFetchTarget] = useState<string | null>(null);
   const [fields, setFields] = useState<Record<string, string>>({ ...DEFAULT_VALUES });
   const [showAscii, setShowAscii] = useState(true);
+  const [showCrt, setShowCrt] = useState(true);
   const [customAscii, setCustomAscii] = useState("");
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
@@ -111,7 +112,7 @@ export function ReadmeBuilder() {
   const debouncedUsername = useDebounce(username, 500);
   const debouncedAscii = useDebounce(customAscii, 500);
 
-  const previewUrl = buildPreviewUrl(origin, debouncedUsername, debouncedFields, showAscii, debouncedAscii);
+  const previewUrl = buildPreviewUrl(origin, debouncedUsername, debouncedFields, showAscii, debouncedAscii, showCrt);
 
   const updateField = useCallback((key: string, value: string) => {
     setFields((prev) => ({ ...prev, [key]: value }));
@@ -136,7 +137,7 @@ export function ReadmeBuilder() {
     );
   }, []);
 
-  const fullUrl = buildPreviewUrl(origin, username, fields, showAscii, customAscii);
+  const fullUrl = buildPreviewUrl(origin, username, fields, showAscii, customAscii, showCrt);
   const markdown = `![${username}](${fullUrl})`;
   const html = `<p align="center">\n  <img src="${fullUrl}" alt="${username}" />\n</p>`;
 
@@ -185,6 +186,12 @@ export function ReadmeBuilder() {
             <Switch id="ascii-toggle" checked={showAscii} onCheckedChange={setShowAscii} />
             <Label htmlFor="ascii-toggle" className="text-xs text-muted-foreground">
               Show ASCII art
+            </Label>
+          </div>
+          <div className="mt-2 flex items-center gap-3">
+            <Switch id="crt-toggle" checked={showCrt} onCheckedChange={setShowCrt} />
+            <Label htmlFor="crt-toggle" className="text-xs text-muted-foreground">
+              CRT effect
             </Label>
           </div>
           {showAscii && (
@@ -304,10 +311,12 @@ function buildPreviewUrl(
   fields: Record<string, string>,
   showAscii: boolean,
   customAscii?: string,
+  showCrt?: boolean,
 ): string {
   const params = new URLSearchParams();
   params.set("username", username || "Solenad");
   params.set("ascii", showAscii ? "1" : "0");
+  params.set("crt", showCrt !== false ? "1" : "0");
   for (const [key, value] of Object.entries(fields)) {
     if (value) params.set(key, value);
   }

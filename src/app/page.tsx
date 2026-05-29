@@ -28,10 +28,10 @@ export default function Page() {
       <div className="mx-auto max-w-4xl">
         <div className="mb-8">
           <h1 className="text-2xl font-bold">
-            <span className="text-term-green">chiikawa readme card generator</span>
+            <span className="text-term-green">fastfetch readme generator</span>
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Dynamic GitHub README SVG card inspired by Chiikawa and Catppuccin.
+            Dynamic GitHub README SVG card with a Catppuccin terminal aesthetic.
             Stats refresh every ~30 min via GitHub&apos;s image cache.
           </p>
           <Link href="/build" className="mt-4 inline-block">

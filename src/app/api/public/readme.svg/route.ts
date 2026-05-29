@@ -90,10 +90,10 @@ async function fetchStats(username: string) {
   try {
     const [uRes, rRes] = await Promise.all([
       fetch(`https://api.github.com/users/${username}`, {
-        headers: { "User-Agent": "chiikawa-readme-svg" },
+        headers: { "User-Agent": "fastfetch-readme-svg" },
       }),
       fetch(`https://api.github.com/users/${username}/repos?per_page=100`, {
-        headers: { "User-Agent": "chiikawa-readme-svg" },
+        headers: { "User-Agent": "fastfetch-readme-svg" },
       }),
     ]);
     const u = await uRes.json();
@@ -218,6 +218,7 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const username = searchParams.get("username") || "Solenad";
   const showAscii = searchParams.get("ascii") !== "0";
+  const showCrt = searchParams.get("crt") !== "0";
   const customAscii = searchParams.get("ascii_art");
   const info = buildInfo(searchParams);
   const stats = await fetchStats(username);
@@ -306,6 +307,7 @@ export async function GET(request: Request) {
       @keyframes glow { 0%, 100% { opacity: 0.7; } 50% { opacity: 1; } }
       .pulse { animation: glow 2.5s ease-in-out infinite; }
       ${genTwCSS()}
+      ${showCrt ? `
       .crt-layer { pointer-events: none; }
       @keyframes scan-scroll { 0% { transform: translateY(0); } 100% { transform: translateY(-4px); } }
       .crt-scan { animation: scan-scroll 1.2s linear infinite; transform-origin: 0 0; mix-blend-mode: overlay; }
@@ -324,6 +326,7 @@ export async function GET(request: Request) {
         100% { transform: translateY(760px); }
       }
       .crt-beam { animation: beam-sweep 11.25s linear infinite; transform-origin: 0 0; pointer-events: none; mix-blend-mode: screen; }
+      ` : ""}
     </style>
   </defs>
 
@@ -389,11 +392,13 @@ export async function GET(request: Request) {
   </g>
   <text x="30" y="${H - 12}" font-size="12" fill="#a5adcb">
   </text>
+  ${showCrt ? `
   <g class="crt-scan">
     <rect class="crt-layer" width="${W}" height="${H}" fill="url(#scanlines)" opacity="0.25" pointer-events="none"/>
   </g>
   <rect class="crt-beam" width="${W}" height="20" fill="url(#crt-beam)"/>
   <rect class="crt-layer" width="${W}" height="${H}" fill="url(#vignette)" pointer-events="none"/>
+  ` : ""}
 </svg>`;
 
   return new Response(svg, {

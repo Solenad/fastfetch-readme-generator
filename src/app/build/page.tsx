@@ -9,7 +9,7 @@ export default function BuildPage() {
       <div className="mx-auto max-w-5xl">
         <h1 className="mb-2 text-2xl font-bold">
           <Link href="/" className="text-term-green hover:underline">
-            chiikawa readme card generator
+            fastfetch readme generator
           </Link>
         </h1>
 

@@ -4,13 +4,13 @@ import { Providers } from "./providers";
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
-  title: "chiikawa readme card generator",
+  title: "fastfetch readme generator",
   description:
-    "Dynamic SVG card generator for GitHub READMEs — Chiikawa x Catppuccin terminal aesthetic.",
+    "Dynamic SVG card generator for GitHub READMEs with a Catppuccin terminal aesthetic.",
   openGraph: {
-    title: "chiikawa readme card generator",
+    title: "fastfetch readme generator",
     description:
-      "Dynamic SVG card generator for GitHub READMEs — Chiikawa x Catppuccin terminal aesthetic.",
+      "Dynamic SVG card generator for GitHub READMEs with a Catppuccin terminal aesthetic.",
     type: "website",
   },
   twitter: {
