@@ -9,6 +9,7 @@
 ![React 19](https://img.shields.io/badge/React-19-7e9cd8?style=for-the-badge)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-7e9cd8?style=for-the-badge)
 ![Tailwind CSS 4](https://img.shields.io/badge/Tailwind%20CSS-4-7e9cd8?style=for-the-badge)
+![GitHub Stars](https://img.shields.io/github/stars/Solenad/chiikawa-readme?style=for-the-badge&logo=github&color=7e9cd8)
 
 </div>
 
@@ -85,6 +86,12 @@ GET /api/public/readme.svg
 | `theme` | string | `catppuccin-macchiato` | Theme name |
 | `ascii_art` | string | — | Custom ASCII art |
 | `distro`, `host`, `uptime`, `kernel`, `school`, `shell`, `wm`, `editor`, `languages`, `stack`, `db`, `tools`, `ai` | string | — | Custom field values |
+
+## Contributing
+
+Contributions are welcome! Open an issue or pull request on [GitHub](https://github.com/Solenad/chiikawa-readme). For planned work, see the [openspec proposals](openspec/specs/).
+
+This project uses Next.js 16 conventions — see `AGENTS.md` for details.
 
 ## Tech Stack
 

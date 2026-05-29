@@ -14,7 +14,27 @@ const container = {
 
 const slideIn = {
   hidden: { opacity: 0, x: -40 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.5, ease: "easeOut" as const },
+  },
+};
+
+const slideInRight = {
+  hidden: { opacity: 0, x: 40 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.5, ease: "easeOut" as const },
+  },
+};
+
+const rightContainer = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.15, delayChildren: 0.5 },
+  },
 };
 
 export default function Page() {
@@ -38,9 +58,9 @@ export default function Page() {
 
   return (
     <main className="min-h-screen px-4 py-10 sm:px-8">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 lg:grid-cols-5 lg:gap-16">
         <motion.div
-          className="flex flex-col justify-center"
+          className="flex flex-col justify-center lg:col-span-2"
           variants={container}
           initial="hidden"
           animate="show"
@@ -55,9 +75,8 @@ export default function Page() {
               <span className="text-foreground">for your GitHub README</span>
             </h1>
             <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-              Dynamic terminal-style SVG cards with live GitHub stats, 23+
-              color themes, CRT effects, and typewriter animations. Drop it
-              into your profile README and watch it come alive.
+              Dynamic terminal-style SVG cards with live GitHub stats, 23+ color
+              themes, CRT effects, and typewriter animations.{" "}
             </p>
           </motion.div>
 
@@ -76,12 +95,15 @@ export default function Page() {
               >
                 Solenad
               </a>
-              , a software developer from the philippines. i built this to make
-              GitHub profiles a little less boring and a lot more terminal-coded.
+              , a software developer from the philippines. i built this after
+              having a pleasant time with fastfetch, and wanted to expand its
+              style to my Github. <br />
+              <br />
+              i&apos;ll be updating this to increase personalization by adding
+              more customizable options.
             </p>
             <p className="mb-2">
-              if you find this useful, consider starring the repo — it helps a
-              lot {"<"}3
+              if you find this useful, consider starring the repo!
             </p>
             <p>
               <span className="text-term-green">~</span>{" "}
@@ -120,50 +142,49 @@ export default function Page() {
           </motion.div>
         </motion.div>
 
-        <div>
-          <h2 className="mb-4 text-lg font-bold text-term-cyan">
+        <motion.div
+          className="flex flex-col lg:col-span-3"
+          variants={rightContainer}
+          initial="hidden"
+          animate="show"
+        >
+          <motion.h2
+            className="mb-4 text-lg font-bold text-term-cyan"
+            variants={slideInRight}
+          >
             <span className="text-term-green">~</span>{" "}
             <span className="text-term-blue">❯</span> example
-          </h2>
+          </motion.h2>
 
-          <div className="mb-10 overflow-hidden rounded-lg border border-border bg-card/40 p-2">
+          <motion.div
+            className="mb-6 overflow-hidden rounded-xl border-2 border-border bg-card/60 p-4"
+            variants={slideInRight}
+          >
             <img
               src="/api/public/readme.svg"
               alt="solenad readme card preview"
               className="block w-full"
             />
-          </div>
+          </motion.div>
 
-          <Snippet
-            label="Markdown (paste into README.md)"
-            value={markdown}
-            copied={copied === "md"}
-            onCopy={() => copy(markdown, "md")}
-          />
-          <Snippet
-            label="HTML (centered, for GitHub profile README)"
-            value={html}
-            copied={copied === "html"}
-            onCopy={() => copy(html, "html")}
-          />
-          <Snippet
-            label="Direct image URL"
-            value={svgUrl}
-            copied={copied === "url"}
-            onCopy={() => copy(svgUrl, "url")}
-          />
-
-          <div className="mt-6 rounded-md border border-border bg-card/40 p-4 text-xs text-muted-foreground">
-            <p className="mb-2 text-term-cyan font-bold">how it works</p>
-            <p>
-              GitHub READMEs only render images, not iframes or scripts. This
-              endpoint returns a dynamic SVG that embeds live GitHub stats
-              (repos, followers, following, total stars) fetched server-side.
-              GitHub&apos;s camo proxy caches the image, so updates appear
-              within ~30 minutes.
-            </p>
-          </div>
-        </div>
+          <motion.div variants={slideInRight}>
+            <h3 className="mb-3 text-xs font-bold text-term-cyan tracking-wider uppercase">
+              quick embed
+            </h3>
+            <Snippet
+              label="markdown"
+              value={markdown}
+              copied={copied === "md"}
+              onCopy={() => copy(markdown, "md")}
+            />
+            <Snippet
+              label="html"
+              value={html}
+              copied={copied === "html"}
+              onCopy={() => copy(html, "html")}
+            />
+          </motion.div>
+        </motion.div>
       </div>
     </main>
   );
@@ -187,7 +208,7 @@ function Snippet({
         <button
           type="button"
           onClick={onCopy}
-          className="rounded border border-border bg-card px-2 py-1 font-bold text-term-green hover:border-term-green/60 hover:bg-card/80"
+          className="rounded border border-border bg-card px-2 py-1 font-bold text-term-green hover:border-term-green/60 hover:bg-card/80 transition-all duration-200 hover:scale-[1.03] active:scale-[0.97]"
         >
           {copied ? "copied ✓" : "copy"}
         </button>

@@ -1,13 +1,35 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "motion/react";
 import { ReadmeBuilder } from "@/components/readme-builder";
+
+const container = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.15, delayChildren: 0.1 },
+  },
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: "easeOut" as const },
+  },
+};
 
 export default function BuildPage() {
   return (
     <main className="min-h-screen px-4 py-10 sm:px-8">
-      <div className="mx-auto max-w-5xl">
-        <div className="mb-2 flex items-baseline justify-between">
+      <motion.div
+        className="mx-auto max-w-5xl"
+        variants={container}
+        initial="hidden"
+        animate="show"
+      >
+        <motion.div className="mb-2 flex items-baseline justify-between" variants={fadeUp}>
           <h1 className="text-2xl font-bold">
             <Link href="/" className="text-term-green hover:underline">
               RiceMe
@@ -16,9 +38,9 @@ export default function BuildPage() {
           <Link href="/" className="text-xs text-muted-foreground hover:text-foreground">
             &larr; back
           </Link>
-        </div>
+        </motion.div>
 
-        <section>
+        <motion.section variants={fadeUp}>
           <h2 className="mb-1 mt-8 text-lg font-bold">
             <span className="text-term-green">build your own</span>
           </h2>
@@ -27,8 +49,8 @@ export default function BuildPage() {
             manually. Toggle ASCII art, then paste the snippet into your README.
           </p>
           <ReadmeBuilder />
-        </section>
-      </div>
+        </motion.section>
+      </motion.div>
     </main>
   );
 }

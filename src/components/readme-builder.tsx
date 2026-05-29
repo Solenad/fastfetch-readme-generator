@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { motion } from "motion/react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -80,6 +81,63 @@ function useDebounce<T>(value: T, delay: number): T {
   }, [value, delay]);
   return debounced;
 }
+
+const builderContainer = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.15, delayChildren: 0.15 },
+  },
+};
+
+const slideLeft = {
+  hidden: { opacity: 0, x: -30 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.4, ease: "easeOut" as const },
+  },
+};
+
+const slideRight = {
+  hidden: { opacity: 0, x: 30 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.4, ease: "easeOut" as const },
+  },
+};
+
+const fieldGrid = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.04 },
+  },
+};
+
+const fieldItem = {
+  hidden: { opacity: 0, y: 10 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.25, ease: "easeOut" as const },
+  },
+};
+
+const snippetContainer = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+  },
+};
+
+const snippetItem = {
+  hidden: { opacity: 0, y: 12 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.3, ease: "easeOut" as const },
+  },
+};
 
 export function ReadmeBuilder() {
   const [origin, setOrigin] = useState("");
@@ -161,8 +219,13 @@ export function ReadmeBuilder() {
   );
 
   return (
-    <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-      <div className="space-y-6">
+    <motion.div
+      className="grid grid-cols-1 gap-8 lg:grid-cols-2"
+      variants={builderContainer}
+      initial="hidden"
+      animate="show"
+    >
+      <motion.div className="space-y-6" variants={slideLeft}>
         <div>
           <div className="mb-4 flex items-end gap-3">
             <div className="flex-1">
@@ -254,9 +317,14 @@ export function ReadmeBuilder() {
           )}
         </div>
 
-        <div className="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
+        <motion.div
+          className="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2"
+          variants={fieldGrid}
+          initial="hidden"
+          animate="show"
+        >
           {FIELD_DEFS.map((field) => (
-            <div key={field.key}>
+            <motion.div key={field.key} variants={fieldItem}>
               <Label
                 htmlFor={`field-${field.key}`}
                 className="mb-1 flex items-center gap-1.5 text-xs text-muted-foreground"
@@ -274,12 +342,12 @@ export function ReadmeBuilder() {
                 placeholder={field.placeholder}
                 className="font-mono text-xs placeholder:text-muted-foreground/30"
               />
-            </div>
+            </motion.div>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      <div className="space-y-6">
+      <motion.div className="space-y-6" variants={slideRight}>
         <div className="overflow-hidden rounded-lg border border-border bg-card/40 p-2">
           <img
             src={previewUrl}
@@ -294,28 +362,39 @@ export function ReadmeBuilder() {
           />
         </div>
 
-        <div className="space-y-3">
-          <Snippet
-            label="Markdown"
-            value={markdown}
-            copied={copiedKey === "md"}
-            onCopy={() => copy(markdown, "md")}
-          />
-          <Snippet
-            label="HTML (centered, for GitHub profile README)"
-            value={html}
-            copied={copiedKey === "html"}
-            onCopy={() => copy(html, "html")}
-          />
-          <Snippet
-            label="Direct image URL"
-            value={fullUrl}
-            copied={copiedKey === "url"}
-            onCopy={() => copy(fullUrl, "url")}
-          />
-        </div>
-      </div>
-    </div>
+        <motion.div
+          className="space-y-3"
+          variants={snippetContainer}
+          initial="hidden"
+          animate="show"
+        >
+          <motion.div variants={snippetItem}>
+            <Snippet
+              label="Markdown"
+              value={markdown}
+              copied={copiedKey === "md"}
+              onCopy={() => copy(markdown, "md")}
+            />
+          </motion.div>
+          <motion.div variants={snippetItem}>
+            <Snippet
+              label="HTML (centered, for GitHub profile README)"
+              value={html}
+              copied={copiedKey === "html"}
+              onCopy={() => copy(html, "html")}
+            />
+          </motion.div>
+          <motion.div variants={snippetItem}>
+            <Snippet
+              label="Direct image URL"
+              value={fullUrl}
+              copied={copiedKey === "url"}
+              onCopy={() => copy(fullUrl, "url")}
+            />
+          </motion.div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -337,7 +416,7 @@ function Snippet({
         <button
           type="button"
           onClick={onCopy}
-          className="cursor-pointer rounded border border-border bg-card px-2 py-1 font-bold text-term-green hover:border-term-green/60 hover:bg-card/80"
+          className="cursor-pointer rounded border border-border bg-card px-2 py-1 font-bold text-term-green hover:border-term-green/60 hover:bg-card/80 transition-all duration-200 hover:scale-[1.03] active:scale-[0.97]"
         >
           {copied ? "copied ✓" : "copy"}
         </button>
