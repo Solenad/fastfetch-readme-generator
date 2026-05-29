@@ -190,7 +190,7 @@ export function ReadmeBuilder() {
           {showAscii && (
             <div className="mt-3">
               <Label htmlFor="ascii-art" className="mb-1 block text-xs text-muted-foreground">
-                Custom ASCII art (optional &mdash; paste your own)
+                Custom ASCII art (optional &mdash; paste your own and add whitespace above the art as needed)
               </Label>
               <Textarea
                 id="ascii-art"
