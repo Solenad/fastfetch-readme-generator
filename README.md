@@ -12,6 +12,7 @@
 ![GitHub Stars](https://img.shields.io/github/stars/Solenad/chiikawa-readme?style=for-the-badge&logo=github&color=7e9cd8)
 
 </div>
+<img width="1919" height="990" alt="image" src="https://github.com/user-attachments/assets/81748fe4-5779-4e50-adcf-90e1b0a13341" />
 
 ## What is this?
 
