@@ -2,7 +2,20 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
+
+const container = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+  },
+};
+
+const slideIn = {
+  hidden: { opacity: 0, x: -40 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
+};
 
 export default function Page() {
   const [host, setHost] = useState("");
@@ -26,8 +39,13 @@ export default function Page() {
   return (
     <main className="min-h-screen px-4 py-10 sm:px-8">
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
-        <div className="flex flex-col justify-center">
-          <div className="mb-6">
+        <motion.div
+          className="flex flex-col justify-center"
+          variants={container}
+          initial="hidden"
+          animate="show"
+        >
+          <motion.div className="mb-6" variants={slideIn}>
             <p className="mb-1 text-xs text-term-cyan font-bold tracking-wider uppercase">
               RiceMe v1.0
             </p>
@@ -41,9 +59,12 @@ export default function Page() {
               color themes, CRT effects, and typewriter animations. Drop it
               into your profile README and watch it come alive.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="mb-8 rounded-md border border-border bg-card/40 p-4 text-xs leading-relaxed text-muted-foreground">
+          <motion.div
+            className="mb-8 rounded-md border border-border bg-card/40 p-4 text-xs leading-relaxed text-muted-foreground"
+            variants={slideIn}
+          >
             <p className="mb-2 text-term-green font-bold">$ cat intro.txt</p>
             <p className="mb-2">
               hi! i&apos;m{" "}
@@ -74,9 +95,9 @@ export default function Page() {
                 github.com/Solenad/chiikawa-readme
               </a>
             </p>
-          </div>
+          </motion.div>
 
-          <div className="flex flex-wrap gap-3">
+          <motion.div className="flex flex-wrap gap-3" variants={slideIn}>
             <Link href="/build">
               <Button variant="default" size="lg" className="cursor-pointer">
                 Build Your Own &rarr;
@@ -96,8 +117,8 @@ export default function Page() {
                 Star on GitHub
               </Button>
             </a>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         <div>
           <h2 className="mb-4 text-lg font-bold text-term-cyan">
