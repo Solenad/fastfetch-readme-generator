@@ -33,12 +33,13 @@ export default function RootLayout({
               <div className="mx-auto max-w-7xl rounded-xl border-2 border-border bg-card/40 p-4 text-xs text-muted-foreground">
                 <p className="mb-1">
                   <span className="text-term-green">~</span>{" "}
-                  <span className="text-term-blue">❯</span> RiceMe v1.0 · MIT License · &copy; 2025 Solenad
+                  <span className="text-term-blue">❯ </span> RiceMe v1.0 · MIT
+                  License · &copy; 2025 Solenad
                 </p>
                 <p>
                   <span className="text-term-green">~</span>{" "}
-                  <span className="text-term-blue">❯</span>{" "}
-                  built with Next.js + shadcn/ui ·{" "}
+                  <span className="text-term-blue">❯</span> built with Next.js +
+                  shadcn/ui ·{" "}
                   <a
                     href="https://github.com/Solenad/chiikawa-readme"
                     target="_blank"
