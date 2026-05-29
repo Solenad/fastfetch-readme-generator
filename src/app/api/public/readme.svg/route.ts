@@ -203,7 +203,11 @@ export async function GET(request: Request) {
     ? (customAscii ? customAscii.replace(/\\n/g, "\n").replace(/\r/g, "").split("\n") : ASCII.split("\n"))
     : [];
 
-  const infoX = showAscii ? 340 : 30;
+  const monoCharW = asciiSize * 0.65;
+  const maxLineLen = Math.max(...asciiLines.map(l => l.length), 0);
+  const asciiWidthPx = maxLineLen * monoCharW;
+  const infoX = showAscii ? asciiX + asciiWidthPx + 40 : 30;
+  const sepEndX = W - 30;
   const headerY = 70;
   const rowStartY = 120;
   const rowH = 26;
@@ -319,7 +323,7 @@ export async function GET(request: Request) {
   <text x="${infoX}" y="${headerY}" font-size="24" font-weight="700" filter="url(#phosphor-glow)">
     <tspan fill="${theme.host}">${esc(info.find((r) => r.key === "host")?.value || username)}</tspan>
   </text>
-  <text x="${infoX}" y="${headerY + 22}" fill="${theme.card}" font-size="13" xml:space="preserve">${"─".repeat(showAscii ? 48 : 80)}</text>
+  <line x1="${infoX}" y1="${headerY + 22}" x2="${sepEndX}" y2="${headerY + 22}" stroke="${theme.card}" stroke-width="1.5"/>
 
   ${info
         .map((row, i) => {
