@@ -182,7 +182,8 @@ function buildInfo(params: URLSearchParams, theme: Theme) {
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const username = searchParams.get("username") || "Solenad";
+  const rawUsername = searchParams.get("username");
+  const username = rawUsername === null ? "Solenad" : (rawUsername || "your-username");
   const showAscii = searchParams.get("ascii") !== "0";
   const showCrt = searchParams.get("crt") !== "0";
   const customAscii = searchParams.get("ascii_art");
