@@ -8,6 +8,16 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { THEMES, DEFAULT_THEME } from "@/lib/themes";
 
 const FIELD_DEFS = [
   { key: "distro", label: "Distro", color: "#8bd5ca", placeholder: "Windows 11" },
@@ -79,6 +89,7 @@ export function ReadmeBuilder() {
   const [showAscii, setShowAscii] = useState(true);
   const [showCrt, setShowCrt] = useState(true);
   const [customAscii, setCustomAscii] = useState("");
+  const [selectedTheme, setSelectedTheme] = useState(DEFAULT_THEME);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   useEffect(() => {
@@ -111,8 +122,9 @@ export function ReadmeBuilder() {
   const debouncedFields = useDebounce(fields, 500);
   const debouncedUsername = useDebounce(username, 500);
   const debouncedAscii = useDebounce(customAscii, 500);
+  const debouncedTheme = useDebounce(selectedTheme, 200);
 
-  const previewUrl = buildPreviewUrl(origin, debouncedUsername, debouncedFields, showAscii, debouncedAscii, showCrt);
+  const previewUrl = buildPreviewUrl(origin, debouncedUsername, debouncedFields, showAscii, debouncedAscii, showCrt, debouncedTheme);
 
   const updateField = useCallback((key: string, value: string) => {
     setFields((prev) => ({ ...prev, [key]: value }));
@@ -137,7 +149,7 @@ export function ReadmeBuilder() {
     );
   }, []);
 
-  const fullUrl = buildPreviewUrl(origin, username, fields, showAscii, customAscii, showCrt);
+  const fullUrl = buildPreviewUrl(origin, username, fields, showAscii, customAscii, showCrt, selectedTheme);
   const markdown = `![${username}](${fullUrl})`;
   const html = `<p align="center">\n  <img src="${fullUrl}" alt="${username}" />\n</p>`;
 
@@ -194,6 +206,38 @@ export function ReadmeBuilder() {
               CRT effect
             </Label>
           </div>
+          <div className="mt-3">
+            <Label className="mb-1.5 block text-xs text-muted-foreground">Theme</Label>
+            <Select value={selectedTheme} onValueChange={setSelectedTheme}>
+              <SelectTrigger className="font-mono text-xs">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {(["light", "warm-dark", "deep-dark", "cool-dark"] as const).map((cat) => {
+                  const catLabel = cat === "warm-dark" ? "Warm Dark" : cat === "deep-dark" ? "Deep Dark" : cat === "cool-dark" ? "Cool Dark" : "Light";
+                  const grouped = THEMES.filter((t) => t.category === cat);
+                  return (
+                    <SelectGroup key={cat}>
+                      <SelectLabel>{catLabel}</SelectLabel>
+                      {grouped.map((t) => (
+                        <SelectItem key={t.name} value={t.name} className="font-mono text-xs">
+                          <span className="inline-flex items-center gap-2">
+                            <span className="inline-flex overflow-hidden rounded">
+                              {t.palette.slice(0, 5).map((c, i) => (
+                                <span key={i} className="inline-block h-4 w-3" style={{ backgroundColor: c }} />
+                              ))}
+                            </span>
+                            {t.label}
+                          </span>
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  );
+                })}
+              </SelectContent>
+            </Select>
+          </div>
+
           {showAscii && (
             <div className="mt-3">
               <Label htmlFor="ascii-art" className="mb-1 block text-xs text-muted-foreground">
@@ -312,11 +356,13 @@ function buildPreviewUrl(
   showAscii: boolean,
   customAscii?: string,
   showCrt?: boolean,
+  theme?: string,
 ): string {
   const params = new URLSearchParams();
   params.set("username", username || "Solenad");
   params.set("ascii", showAscii ? "1" : "0");
   params.set("crt", showCrt !== false ? "1" : "0");
+  if (theme && theme !== DEFAULT_THEME) params.set("theme", theme);
   for (const [key, value] of Object.entries(fields)) {
     if (value) params.set(key, value);
   }
