@@ -1,4 +1,4 @@
-import { inflateRawSync } from "node:zlib"
+import pako from "pako"
 import { getTheme, type Theme } from "@/lib/themes"
 
 const ASCII = `
@@ -193,24 +193,7 @@ export async function GET(request: Request) {
     ? await (async () => {
         try {
           const buf = Buffer.from(compressedAscii, "base64");
-          // Parse gzip header properly: at least 10 bytes, skip variable fields
-          if (buf.length < 18 || buf[0] !== 0x1f || buf[1] !== 0x8b) return null;
-          let offset = 10; // base header
-          const flg = buf[3];
-          if (flg & 0x04) { // FEXTRA
-            offset += 2 + buf.readUInt16LE(offset);
-          }
-          if (flg & 0x08) { // FNAME
-            while (buf[offset++] !== 0); // skip null-terminated
-          }
-          if (flg & 0x10) { // FCOMMENT
-            while (buf[offset++] !== 0); // skip null-terminated
-          }
-          if (flg & 0x02) { // FHCRC
-            offset += 2; // skip CRC16
-          }
-          // Data is between offset and buf.length - 8 (CRC32 + ISIZE trailer)
-          return inflateRawSync(buf.subarray(offset, buf.length - 8)).toString("utf-8");
+          return new TextDecoder().decode(pako.inflate(buf));
         } catch {
           return null;
         }
