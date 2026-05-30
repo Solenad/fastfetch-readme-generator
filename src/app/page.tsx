@@ -109,12 +109,12 @@ export default function Page() {
               <span className="text-term-green">~</span>{" "}
               <span className="text-term-blue">❯</span>{" "}
               <a
-                href="https://github.com/Solenad/chiikawa-readme"
+                href="https://github.com/Solenad/riceme-readme-generator"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-bold text-term-cyan hover:underline"
               >
-                github.com/Solenad/chiikawa-readme
+                github.com/Solenad/riceme-readme-generator
               </a>
             </p>
           </motion.div>
@@ -126,7 +126,7 @@ export default function Page() {
               </Button>
             </Link>
             <a
-              href="https://github.com/Solenad/chiikawa-readme"
+              href="https://github.com/Solenad/riceme-readme-generator"
               target="_blank"
               rel="noopener noreferrer"
             >
