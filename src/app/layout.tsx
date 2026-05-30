@@ -13,10 +13,11 @@ export const metadata: Metadata = {
     description:
       "RiceMe: generate dynamic terminal-style SVG cards for GitHub READMEs with 23+ color themes.",
     type: "website",
-    images: [{ url: "/og-image.svg", width: 1200, height: 630 }],
+    images: [{ url: "/og-image.webp", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
+    images: [{ url: "/og-image.webp", width: 1200, height: 630 }],
   },
 };
 
