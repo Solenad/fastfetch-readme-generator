@@ -29,19 +29,3 @@ export async function gzipEncode(text: string): Promise<string> {
   }
   return btoa(binary);
 }
-
-/**
- * Decode a base64 payload and gzip-decompress it back to the original string.
- * Uses Node.js zlib (available in Cloudflare Workers via nodejs_compat).
- * Returns null if decoding or decompression fails.
- */
-export async function gzipDecode(encoded: string): Promise<string | null> {
-  try {
-    const { gunzipSync } = await import("node:zlib");
-    const buffer = Buffer.from(encoded, "base64");
-    const decompressed = gunzipSync(buffer);
-    return decompressed.toString("utf-8");
-  } catch {
-    return null;
-  }
-}
