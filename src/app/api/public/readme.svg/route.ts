@@ -1,4 +1,5 @@
 import { getTheme, type Theme } from "@/lib/themes"
+import { gzipDecode } from "@/lib/compress"
 
 const ASCII = `
 ⠀
@@ -186,7 +187,11 @@ export async function GET(request: Request) {
   const username = rawUsername === null ? "Solenad" : (rawUsername || "your-username");
   const showAscii = searchParams.get("ascii") !== "0";
   const showCrt = searchParams.get("crt") !== "0";
-  const customAscii = searchParams.get("ascii_art");
+  const rawAscii = searchParams.get("ascii_art");
+  const compressedAscii = searchParams.get("aa");
+  const customAscii = compressedAscii
+    ? await gzipDecode(compressedAscii).catch(() => null) ?? rawAscii
+    : rawAscii;
   const themeName = searchParams.get("theme") || "";
   const theme = getTheme(themeName);
   const info = buildInfo(searchParams, theme);
