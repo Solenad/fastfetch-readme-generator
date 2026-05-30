@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "main": ".open-next/worker.js",
-  "name": "chiikawa-readme",
+  "name": "riceme-readme-generator",
   "compatibility_date": "2026-05-29",
   "compatibility_flags": [
     "nodejs_compat"
